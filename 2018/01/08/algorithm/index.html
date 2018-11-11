@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1 开平方求常数a的开平方，其实就是对于函数$f(x) = x^2 -a$求解$f(x) = 0$的$x$。这个函数在$x&amp;gt;0$时单调递增，可以使用牛顿法逐步逼近。如图所示，先取一个值$x_0$,假设$x_0$是解，判断$x_0$不是解之后，使用$x_0$点的倒数求$x_1$，以此方式逐渐逼近正解。示例代码如下：123456789static double sqrt(double s)&amp;#1">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法">
+<meta property="og:url" content="http://yoursite.com/2018/01/08/algorithm/index.html">
+<meta property="og:site_name" content="大巧不工">
+<meta property="og:description" content="1 开平方求常数a的开平方，其实就是对于函数$f(x) = x^2 -a$求解$f(x) = 0$的$x$。这个函数在$x&amp;gt;0$时单调递增，可以使用牛顿法逐步逼近。如图所示，先取一个值$x_0$,假设$x_0$是解，判断$x_0$不是解之后，使用$x_0$点的倒数求$x_1$，以此方式逐渐逼近正解。示例代码如下：123456789static double sqrt(double s)&amp;#1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/01/08/algorithm/sqrt.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/08/algorithm/floating_point_artithmetic.gif">
+<meta property="og:image" content="http://yoursite.com/2018/01/08/algorithm/complement_map_figure.png">
+<meta property="og:updated_time" content="2018-11-11T05:47:19.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法">
+<meta name="twitter:description" content="1 开平方求常数a的开平方，其实就是对于函数$f(x) = x^2 -a$求解$f(x) = 0$的$x$。这个函数在$x&amp;gt;0$时单调递增，可以使用牛顿法逐步逼近。如图所示，先取一个值$x_0$,假设$x_0$是解，判断$x_0$不是解之后，使用$x_0$点的倒数求$x_1$，以此方式逐渐逼近正解。示例代码如下：123456789static double sqrt(double s)&amp;#1">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/08/algorithm/sqrt.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/08/algorithm/"/>
+
+
+
+
+
+  <title>算法 | 大巧不工</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大巧不工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T15:34:17+08:00">
+                2018-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-开平方"><a href="#1-开平方" class="headerlink" title="1 开平方"></a>1 开平方</h4><p>求常数a的开平方，其实就是对于函数$f(x) = x^2 -a$求解$f(x) = 0$的$x$。这个函数在$x&gt;0$时单调递增，可以使用牛顿法逐步逼近。<br><img src="/2018/01/08/algorithm/sqrt.jpg" alt=""><br>如图所示，先取一个值$x_0$,假设$x_0$是解，判断$x_0$不是解之后，使用$x_0$点的倒数求$x_1$，以此方式逐渐逼近正解。示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static double sqrt(double s)&#123;</span><br><span class="line">  //当所求解与小于该值时，认为已求得正解</span><br><span class="line">    double err = 1E-15;</span><br><span class="line">    double t = s;</span><br><span class="line">    while(Math.abs(t - s/t) &gt; err)&#123;</span><br><span class="line">        t = (t + s/t)/2;</span><br><span class="line">    &#125;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h4 id="2-float的表示方法"><a href="#2-float的表示方法" class="headerlink" title="2 float的表示方法"></a>2 float的表示方法</h4><p>java中flaot采用<a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE 754标准</a>，四字节32位0-31，分为三部分，符号位，指数位，尾数位。<br>|符号位 | 指数位 | 尾数位 |<br>|——-|——-|——-|<br>| 1bit | 8 bit | 23 bit|<br>(1).符号位(S)：最高位（31位）为符号位，表示整个浮点数的正负，0为正，1为负；<br>(2).指数位(E)：23-30位共8位为指数位。根据IEEE754说明，指数的底数可能为2或者10(java中使用2)，规定指数位减去127为指数，取值范围：-127~128，表达式为：$2^{E−127}$。另外，标准中，还规定了，当指数位8位全0或全1的时候，浮点数为非正规形式（这个时候尾数不一样了），所以指数位真正范围为：-126~127。<br>(3).尾数位(M)：0-22位共23位为尾数位，表示小数部分的尾数，即形式为1.M或0.M，至于什么时候是1，什么时候是0，则由指数和尾数共同决定。 小数部分最高有效位是1的数被称为正规（规格化）形式。小数部分最高有效位是0的数被称为非正规（非规格化）形式，其他情况是特殊值。 最终float的值 = $(-1)^{S} \cdot 2^{E-127} \cdot (1.M)$。<br>所以java中的float这样表示，以8.25为例：<br>首先将8.25转换为二进制1000.01，注意转换过程中整数部分与小数部分的区别，表示称二进制的科学计数法为$1.0001\cdot2^3$，也就是说,任何一个数都的科学计数法表示都为$1.xxxx\cdot2^3$，因为任何情况下，首位必为1，所以就省略首位1，将xxxx作为尾数位，所以虽然尾数位是23位，其实表示的是24位。然后指数3+127=130，把130转换成二进制保存在指数位。符号位为1。所以8.25在内存中的表达就是：<br><img src="/2018/01/08/algorithm/floating_point_artithmetic.gif" alt=""><br>这样就能解释float的精度问题了，float的有效位数由尾数位决定，23位尾数加上省略的尾数位最高位1，共24位，$2^24 = 16777216$，也就是说最高有效位数8位，但是16777216并不能覆盖所有8位数，所有最高有效位数是7位。另外，由于在计算过程中会出现四舍五入的情况，所以，在float中，前六位是绝对精确地，第七位可能不精确。<br>总结，float有效位数7位，精确度6位。</p>
+<h4 id="3-判断素数"><a href="#3-判断素数" class="headerlink" title="3 判断素数"></a>3 判断素数</h4><p>原理：合数的最小质因子一定小于等于它的平方根。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static boolean isPrime(int n)&#123;</span><br><span class="line">    if (n &lt; 2) return false;</span><br><span class="line">    for (int i = 2; i * i &lt;= n; i++)&#123;</span><br><span class="line">        if (n%i == 0) return false;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-调和数列与调和级数"><a href="#4-调和数列与调和级数" class="headerlink" title="4 调和数列与调和级数"></a>4 调和数列与调和级数</h4><p>调和数列是自然数的倒数构成的数列，其前n项和就是调和级数。求调和级数直接便利求和</p>
+<h4 id="5-补码计算原理"><a href="#5-补码计算原理" class="headerlink" title="5 补码计算原理"></a>5 补码计算原理</h4><p>在计算机中，所有的数都是按照补码来存储并计算的，那么什么是补码呢？要完美的理解补码，就要完全抛开课本上以及博客上的关于原码高位不变低位取反加一的论调，并不是说他们是错的，只是取反加一以及最高位作为符号位的说法更适合计算方便，事实上计算机的计算方式确实是高位不变低位取反加一，但这种理解并不准确，相反完全增加了理解补码计算的难度。那么如何理解补码呢？<br>首先，要理解模。以钟表为例，假如现在是三点，如果要求将时间回退五个小时，你会怎么办？两种方法：</p>
+<ol>
+<li>顺时针拨动时针7格</li>
+<li>逆时针拨动时针5格</li>
+</ol>
+<p>第二个方法理解起来非常简单，回退嘛，那就逆时针，这里要着重说的是第一种，为什么顺时针也能达到逆时针的效果呢？其实，顺时针拨动7格，就是拨动(12-5)格，这里的12就是模，模的存在，将处于模之内的数构成一个环，环内的数都可以通过正向增长或逆向增长的方式变为环内的另一个数(其实就是取膜运算%)。若数超过模，那么就做取模处理，所以值永远小于模。如果时钟的例子不明朗，那么以十进制为例，以10为模，那么，6加7是3，6减3也是3，这就是模10的“环”。<br>那么计算机中为什么要利用模来进行计算呢？<br>因为计算机中只有加法计算，没有减法，任何减法运算都必须转换为加上一个负数来进行。这就带来一个问题，怎么表示这个负数，并且保证计算结果正确呢？这个时候就要使用补码了。<br>现在知道，模有两个性质：</p>
+<ol>
+<li>存在一个环，当数持续增长到溢出时，会回到最小值</li>
+<li>模内的数无论做多少次加减，其值始终小于模，模类似一个极值</li>
+</ol>
+<p>利用上述两个性质，我们可以将计算机的减法运算简化。<br>在模的范围内，两个相加等于的模得数互为补数，以模10为例，1和9，2和8都互为补数，那么，模范围内的减法$a-b$就可以变换为$a+b\text{的补数}$，还是以模10为例<br>$$5-1 = 5 + (10 -1) = 14  (1)$$<br>14溢出要取模，最终结果是4，计算正确。其实这个过程里的+10就相当于绕环一圈回到正确位置，并不影响计算结果，但也因为这一圈，消除了减法，转换成了加法计算。<br>那么，在计算机内是如何实现的呢？<br>计算机中实现时，牵扯到一个问题，那就是式1的(10-1)在内存中该如何表示，因为既然我们要使用$a+b\text{的补数}$的方式计算，那么$b\text{的补数}$必定要满足两个要求：</p>
+<ol>
+<li>避开减法运算，不能像式1那样还存在减法</li>
+<li>在二进制中能直接通过位运算得到补数</li>
+</ol>
+<p>于是，大牛们想到了一个完美的办法，映射。<br>我们知道，长度为n的二进制数范围是$\left[0,2^n-1\right]$(后面成为集合Z)，共$2^n$个数,模为$2^n$。现在我们要表示$\left[-2^{n-1},2^{n-1}-1\right]$这个范围的数，也就是要把$\left[-2^{n-1},2^{n-1}-1\right]$内所有的数刚好映射到$\left[0,2^n-1\right]$上。主要分两部分：</p>
+<ol>
+<li>对于在$\left[0,2^{n-1}-1\right]$范围内的数，可以保持原样(这个对应求补码的正数不变)</li>
+<li>对于在$\left[-2^{n-1},0\right)$的数，使用补数映射到Z上，即对于x，在Z上有$2^n-\left|x\right|$与之对应，也就是说负数用她的绝对值的补数来表达。这也解释了为什么$-2^{n-1}$可以使用$1000 0000 …$这样的二进制来表达，因为刚好映射上了啊！这个映射过程其实刚好对应求负数补码的过程：符号位不变并取反加一，但是事实上，在补码的计算中，并不存在符号位。</li>
+</ol>
+<p>那么，实际计算中，补码如何起作用呢？在上面的十进制例子中，式1，5-1的计算变换为5 + (10 -1)，加10相当于绕环一圈，计算结果14溢出取模后结果是4。也就是说，使用补数进行计算，只要<strong>真实结果</strong>没有溢出，那么可以直接拿补数相加的结果作为真实结果。<br>回到二进制，在任意的二进制加减法中，因为使用了上述原理(就是补码)计算，所以补码的计算结果可以直接作为<strong>正确结果</strong>。需要注意的是，不同于上述十进制的例子，在计算机中，如果补码计算结果在$\left[0,2^{n-1}-1\right]$内，那么，所得结果即为正确答案，如果补码计算结果在$\left[-2^{n-1},0\right)$内，那么，所得结果需要做一个反向映射才是正确答案，但是内存中存储的始终是未做反向映射的那个值。举例来说：<br>在8位计算机中，要把$\left[-128,127\right]$映射到$\left[0,255\right]$上，那么30-100其实就是30+(256-100) = 186,注意内存中始终存储的是186，但是当我们要读出来这个数时，cpu做了反映射 256-186 = 70，70就是所求的正确答案。</p>
+<p>tip：其实映射的过程就是一个函数，函数图像为：</p>
+<p><img src="/2018/01/08/algorithm/complement_map_figure.png" alt=""></p>
+<p>函数值为补码，x为真实值，内存中按照补码存储，需要真实值时做反映射。</p>
+<h6 id="所谓的符号位与取反加一"><a href="#所谓的符号位与取反加一" class="headerlink" title="所谓的符号位与取反加一"></a>所谓的符号位与取反加一</h6><p>我们知道，书本中说到补码的时候，都会从遵从原码反码补码的顺序，好像这三者是有着递进关系的，实际上并不是这样。但是我们所说的映射过程和由原码求补码是有一定关联的，下面以8位二进制为例作出解释。<br>首先8位二进制在内存中共有<code>0000 0000</code>到<code>1111 1111</code>共256中情况，可以表示[-128,127]的范围，根据上述的映射原理，这个范围要分两个部分对待[-128,0)和[0,127]：<br>对于数字2，2位于上图右半部分，补码映射函数是$f(x) = x$，<strong>其实这个函数映射关系就对应了书本上的正数的补码不变</strong>，所以补码是<code>0000 0010</code>,注意这个过程中并没有通过原码=&gt;补码来转换，而是直接用了映射，刚好对应。<br>对于数字-2，-2位于上图左半部分，补码映射函数$f(x) = 256 - \left|x\right|$，具体计算是什么样呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 0000 0000 - 0000 0010</span><br><span class="line">= 1111 1111 + 0000 0001 - 0000 0010</span><br><span class="line">= (1111 1111 - 0000 0010) + 0000 0001</span><br><span class="line">= (1000 0000 + 0111 1111 - 0000 0000 - 0000 0010) + 0000 0001</span><br><span class="line">//第一个括号表示高位不变，第二个括号表示低位取反，最后加一</span><br><span class="line">= (1000 0000 - 0000 0000) + (0111 1111 - 0000 0010) + 0000 0001</span><br></pre></td></tr></table></figure>
+<p>这说明所谓的取反加一并没有什么神秘，只是二进制中求补数的一种便捷的分配算法而已。</p>
+<h6 id="关于反码"><a href="#关于反码" class="headerlink" title="关于反码"></a>关于反码</h6><p>我们知道，书本中说到补码的时候会从反码讲解过来，好像补码由反码加一而来，其实这么理解并不合适。上面已经说过补码的映射原理，其实求反码也是一个映射过程。还是以8位二进制为例，求反码的过程其实就是求原数字关于255的补数(对应到补码的模来理解，只不过这里的模是255)。</p>
+<p>对于-2，反码计算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1111 1111 - 0000 0010</span><br><span class="line">= 1111 1111 - 0000 0010</span><br><span class="line">= (1000 0000 + 0111 1111 - 0000 0000 - 0000 0010)</span><br><span class="line">//第一个括号表示高位不变，第二个括号表示低位取反，同样取反的言论只是一个计算而已，真正起作用的是求补数</span><br><span class="line">= (1000 0000 - 0000 0000) + (0111 1111 - 0000 0010)</span><br></pre></td></tr></table></figure>
+<p>那么求反码的过程还是把[-127,127]映射到[0,255]上。但是8位是可以表示256个数的，而模为255的时候只能表示255个数。多出一个怎么办？我们观察到，[-127,-1]会映射到[128，254]上，那反码255，也就是<code>1111 1111</code>表示什么呢？实际上，<code>1111 1111</code>在加一就是<code>0000 0000</code>，在反码计算中，这两个都可能代表0，一个是所谓的+0，一个是所谓的-0。也就是说，相比于补码，由于反码的模范围比它要表达的数范围大1，模的环出现了”裂缝”，被两个0打断，这也是计算机中补码优于反码计算的原因。</p>
+<p>以2-2为例，解释两个0的现象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2-2</span><br><span class="line">= 0000 0010 + 1111 1111 - 0000 0010</span><br><span class="line">= 0000 0010 + 1111 1101</span><br><span class="line">= 1111 1111</span><br></pre></td></tr></table></figure>
+<h4 id="5-int溢出"><a href="#5-int溢出" class="headerlink" title="5 int溢出"></a>5 int溢出</h4><p>根据补码的映射与模环的理解，对于int的溢出后的值，可以这样求，int最大值2147483647：</p>
+<p>比如2147483648，位于图像左半边，根据映射关系2147483648表示<br>(2147483648 - 4294967296) = -2147483648</p>
+<p>比如2147483649，位于图像左半边，根据映射关系2147483649表示<br>(2147483649 - 4294967296) = -2147483647</p>
+<p>比如4294967297，先取模4294967297%4294967296为1，位于图像右半边，根据映射关系4294967297表示1</p>
+<h6 id="关于int溢出例子"><a href="#关于int溢出例子" class="headerlink" title="关于int溢出例子"></a>关于int溢出例子</h6><p>Math.abs(-2147483648) = 2147483648，2147483648溢出，根据环，最后结果为-2147483648</p>
+<h4 id="6-String的intern"><a href="#6-String的intern" class="headerlink" title="6 String的intern()"></a>6 String的intern()</h4><h4 id="7-1-0与1-0-0-0"><a href="#7-1-0与1-0-0-0" class="headerlink" title="7 1/0与1.0/0.0"></a>7 1/0与1.0/0.0</h4><p>前者是devide by zero异常，后者是无限大。<br>1/0出现异常的原因是，1除以0在计算机中无法计算，除法过程会无限持续，另外，即使默认1/0结果是无限大或者NAN也不行，因为在int中没有定义正无穷负无穷和nan，整数是有限的。<br>1.0/0.0结果是无穷大，这是因为float中的0并不完全是0，根据float在内存中的表达方式，0.0是极其接近0的一个小值，所以首先这个除法过程是可以进行的。另外在float中也定义了正负无穷，所以有结果。</p>
+<h4 id="8-float的三个值"><a href="#8-float的三个值" class="headerlink" title="8 float的三个值"></a>8 float的三个值</h4><p>正无穷，负无穷，NaN。<br>1.0/0.0 = POSITIVE_INFINITY(正无穷),It is equal to the value returned by Float.intBitsToFloat(0x7f800000).<br>-1.0/0.0 = NEGATIVE_INFINITY(负无穷),It is equal to the value returned by Float.intBitsToFloat(0xff800000).<br>0.0/0.0 = NaN<br>POSITIVE_INFINITY - POSITIVE_INFINITY = NaN<br>另外需要注意的是，Float的MAX_VALUE和MIN_VALUE表示的是float所能表示的最大正数和最小正数(不是最小的负数)</p>
+<p>double也有相似的三个值。</p>
+<h4 id="9-负整数除法和模"><a href="#9-负整数除法和模" class="headerlink" title="9 负整数除法和模"></a>9 负整数除法和模</h4><p>-14/3 = -4 余 -2<br>14/-3 = -4 余  2<br>-14/-3 = 4 余 -2<br>遵循向零取整：什么意思呢？比如两个正数10和4相除，商2.5，向零取整为2，那么余10-4<em>2 = 2；<br>同理，在负数加入进来后，也遵循向零取整，如 -14/3，商-4.67，向零取整-4，那么余-14-(-4</em>3) = -2;再如14/-3商-4.67，向零取整-4，余14-(-3 * -4) = 2;</p>
+<p>负数的模与上面同理。</p>
+<h4 id="10-位运算符"><a href="#10-位运算符" class="headerlink" title="10 位运算符"></a>10 位运算符</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp; | ^</span><br></pre></td></tr></table></figure>
+<h4 id="11-求整数的二进制字符串"><a href="#11-求整数的二进制字符串" class="headerlink" title="11 求整数的二进制字符串"></a>11 求整数的二进制字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static String getBanaryString(int n)&#123;</span><br><span class="line">  String result = &quot;&quot;;</span><br><span class="line">  for(int i = n; i &gt;= 1 ; i /= 2)&#123;</span><br><span class="line">    result = i%2 + result;</span><br><span class="line">  &#125;</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="12-递归计算ln-N"><a href="#12-递归计算ln-N" class="headerlink" title="12 递归计算ln(N!)"></a>12 递归计算ln(N!)</h4><p>这个比较简单<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static double calLn(int n)&#123;</span><br><span class="line">    if(n == 1)&#123;</span><br><span class="line">      return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    return calLn(n-1) + Math.log(n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="13-递归计算二项分布"><a href="#13-递归计算二项分布" class="headerlink" title="13 递归计算二项分布"></a>13 递归计算二项分布</h4><p>算法4中的程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static double bino(int n, int k, double p)&#123;</span><br><span class="line">  if(n == 0 &amp;&amp; k == 0)&#123;</span><br><span class="line">    return 1;</span><br><span class="line">  &#125;</span><br><span class="line">  if(n &lt; 0 || k &lt; 0)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">  &#125;</span><br><span class="line">  return p*bino(n-1,k-1,p) + (1-p)*bino(n-1,k,p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在出口出增加$n<k$的判断，可以有效减少递归次数 <figure="" class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static double bino(int n, int k, double p)&#123;</span><br><span class="line">  if(n == 0 &amp;&amp; k == 0)&#123;</span><br><span class="line">    return 1;</span><br><span class="line">  &#125;</span><br><span class="line">  if(n &lt; 0 || k &lt; 0 || n &lt; k)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">  &#125;</span><br><span class="line">  return p*bino(n-1,k-1,p) + (1-p)*bino(n-1,k,p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></k$的判断，可以有效减少递归次数></p>
+<p>但是上面的程序递归深度还是很高，k值到50左右就很难算出来了，只能用空间还换取时间，使用数组缓存已经计算出来的结果，程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static double[][] M;</span><br><span class="line">public static double bino(int n, int k, double p)&#123;</span><br><span class="line">  num++;</span><br><span class="line">  if(n == 0 &amp;&amp; k == 0)&#123;</span><br><span class="line">    return 1;</span><br><span class="line">  &#125;</span><br><span class="line">  if(n &lt; 0 || k &lt; 0 || n &lt; k)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">  &#125;</span><br><span class="line">  if(M[n][k] == -1)&#123;</span><br><span class="line">    M[n][k] =  p*bino(n-1,k-1,p) + (1-p)*bino(n-1,k,p);</span><br><span class="line">  &#125;</span><br><span class="line">  return M[n][k];</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">  int n = 100, k = 50;</span><br><span class="line">  double p = 0.5;</span><br><span class="line">  M = new double[n+1][k+1];</span><br><span class="line">  for(int i = 0; i &lt; n+1; i++)&#123;</span><br><span class="line">    for(int j = 0; j &lt; k+1; j++)&#123;</span><br><span class="line">      M[i][j] = -1;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(&quot;bino &quot; + bino(n,k,p)  + &quot; num = &quot; + num + &quot;\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>计算速度足够快，n = 100, k = 50，递归5201次。</p>
+<h6 id="使用循环实现"><a href="#使用循环实现" class="headerlink" title="使用循环实现"></a>使用循环实现</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用循环就是直接使用二项分布的公式了，代码没意思，不写了</span><br></pre></td></tr></table></figure>
+<h4 id="14-求最大公约数"><a href="#14-求最大公约数" class="headerlink" title="14 求最大公约数"></a>14 求最大公约数</h4><p>辗转相除法<br>原理：两个正整数a和b（a&gt;b），它们的最大公约数等于a除以b的余数c和b之间的最大公约数。证明也很简单：<br>假设a,b最大公约数为t，则有a=mt,b=nt,a/b=c…r,那么，a=cb+r =&gt; r=a-cb,可以看出a-cb是a，b的线性组合，肯定能被t整除，而最大公约数肯定是小于余数的，所以就有上面的原理了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//循环</span><br><span class="line">public static int gcd(int m, int n)&#123;</span><br><span class="line">    int r = 0;</span><br><span class="line">    while(true)&#123;</span><br><span class="line">      if ((r = m%n) == 0) &#123;</span><br><span class="line">        return n;</span><br><span class="line">      &#125;</span><br><span class="line">      m = n;</span><br><span class="line">      n = r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//递归</span><br><span class="line">public static int gcd1(int m, int n)&#123;</span><br><span class="line">  if (m%n == 0) &#123;</span><br><span class="line">    return n;</span><br><span class="line">  &#125;</span><br><span class="line">  return gcd1(n,m%n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>相减法<br>原理：两个正整数a和b（a&gt;b），它们的最大公约数等于a-b的差值c和较小数b的最大公约数。证明略。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static int gcd2(int m, int n)&#123;</span><br><span class="line">  int t = 0;</span><br><span class="line">  while(m != n)&#123;</span><br><span class="line">    if (m&gt;n) &#123;</span><br><span class="line">      m = m-n;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      n = n-m;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>辗转相除法的模运算在数字很大的时候效率不高，相减法在两个数相差很大的时候效率不高。<br>改进一下相减法并使用位运算可以提高效率：</p>
+<ol>
+<li>当a和b均为偶数，$gcb(a,b) = 2<em>gcb(a/2, b/2) = 2</em>gcb(a&gt;&gt;1, b&gt;&gt;1)$</li>
+<li>当a为偶数，b为奇数，$gcb(a,b) = gcb(a/2, b) = gcb(a&gt;&gt;1, b)$</li>
+<li>当a为奇数，b为偶数，$gcb(a,b) = gcb(a, b/2) = gcb(a, b&gt;&gt;1)$</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static int gcd3(int m, int n)&#123;</span><br><span class="line">  if (m == n) &#123;</span><br><span class="line">    return m;</span><br><span class="line">  &#125;</span><br><span class="line">  if (m&lt;n) &#123;</span><br><span class="line">    return gcd3(n,m);</span><br><span class="line">  &#125;</span><br><span class="line">  if ((m&amp;1) != 1 &amp;&amp; (n&amp;1) != 1) &#123;</span><br><span class="line">    return 2*gcd3(m&gt;&gt;1,n&gt;&gt;1);</span><br><span class="line">  &#125;else if ((m&amp;1) != 1 &amp;&amp; (n&amp;1) == 1) &#123;</span><br><span class="line">    return gcd3(m&gt;&gt;1, n);</span><br><span class="line">  &#125;else if ((m&amp;1) == 1 &amp;&amp; (n&amp;1) != 1) &#123;</span><br><span class="line">    return gcd3(m,n&gt;&gt;1);</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    return gcd3(n,m-n);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="15-最小公倍数"><a href="#15-最小公倍数" class="headerlink" title="15 最小公倍数"></a>15 最小公倍数</h4><p>a，b最大公约数c，则最小公倍数时ab/c</p>
+<h4 id="16-求两个数互质"><a href="#16-求两个数互质" class="headerlink" title="16 求两个数互质"></a>16 求两个数互质</h4><p>就是求两个数的最大公约数是否为1，为1则互质。互质的两个数还有一些其他的性质。可以使用这些性质优化算法，避免每次都求最大公约数。</p>
+<ol>
+<li>两个不同的质数一定是互质数。<br>例如，2与7、13与19。</li>
+<li>一个质数，另一个不为它的倍数，这两个数为互质数。<br>例如，3与10、5与 26。</li>
+<li>1不是质数也不是合数，它和任何一个自然数（1本身除外）在一起都是互质数。如1和9908。</li>
+<li>相邻的两个自然数是互质数。如 15与 16。</li>
+<li>相邻的两个奇数是互质数。如 49与 51。</li>
+<li>较大数是质数的两个数是互质数。如97与88。</li>
+<li>两个数都是合数（二数差又较大），较小数所有的质因数，都不是较大数的约数，这两个数是互质数。<br>如357与715，357=3×7×17，而3、7和17都不是715的约数，这两个数为互质数。</li>
+<li>两个数都是合数（二数差较小），这两个数的差的所有质因数都不是较小数的约数，这两个数是互质数。如85和78。85－78=7，7不是78的约数，这两个数是互质数。</li>
+<li>两个数都是合数，较大数除以较小数的余数（不为“0”且大于“ 1”）的所有质因数，都不是较小数的约数，这两个数是互质数。如 462与 221<h4 id="17-左移，右移，无符号右移"><a href="#17-左移，右移，无符号右移" class="headerlink" title="17 左移，右移，无符号右移"></a>17 左移，右移，无符号右移</h4>左移永远补0，所以无所谓左右。<br>需要注意的是，以补码保存的负数，在进行有符号移位操作后，仍能正确表示移位操作之后的负数。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/08/java-tips/" rel="next" title="java小贴士">
+                <i class="fa fa-chevron-left"></i> java小贴士
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/10/atom-tips/" rel="prev" title="atom_tips">
+                atom_tips <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">99个小号</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/newerZGQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-开平方"><span class="nav-number">1.</span> <span class="nav-text">1 开平方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-float的表示方法"><span class="nav-number">2.</span> <span class="nav-text">2 float的表示方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-判断素数"><span class="nav-number">3.</span> <span class="nav-text">3 判断素数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-调和数列与调和级数"><span class="nav-number">4.</span> <span class="nav-text">4 调和数列与调和级数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-补码计算原理"><span class="nav-number">5.</span> <span class="nav-text">5 补码计算原理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#所谓的符号位与取反加一"><span class="nav-number">5.0.1.</span> <span class="nav-text">所谓的符号位与取反加一</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#关于反码"><span class="nav-number">5.0.2.</span> <span class="nav-text">关于反码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-int溢出"><span class="nav-number">6.</span> <span class="nav-text">5 int溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#关于int溢出例子"><span class="nav-number">6.0.1.</span> <span class="nav-text">关于int溢出例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-String的intern"><span class="nav-number">7.</span> <span class="nav-text">6 String的intern()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-0与1-0-0-0"><span class="nav-number">8.</span> <span class="nav-text">7 1/0与1.0/0.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-float的三个值"><span class="nav-number">9.</span> <span class="nav-text">8 float的三个值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-负整数除法和模"><span class="nav-number">10.</span> <span class="nav-text">9 负整数除法和模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-位运算符"><span class="nav-number">11.</span> <span class="nav-text">10 位运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-求整数的二进制字符串"><span class="nav-number">12.</span> <span class="nav-text">11 求整数的二进制字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-递归计算ln-N"><span class="nav-number">13.</span> <span class="nav-text">12 递归计算ln(N!)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-递归计算二项分布"><span class="nav-number">14.</span> <span class="nav-text">13 递归计算二项分布</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#使用循环实现"><span class="nav-number">14.0.1.</span> <span class="nav-text">使用循环实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-求最大公约数"><span class="nav-number">15.</span> <span class="nav-text">14 求最大公约数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-最小公倍数"><span class="nav-number">16.</span> <span class="nav-text">15 最小公倍数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-求两个数互质"><span class="nav-number">17.</span> <span class="nav-text">16 求两个数互质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-左移，右移，无符号右移"><span class="nav-number">18.</span> <span class="nav-text">17 左移，右移，无符号右移</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">99个小号</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

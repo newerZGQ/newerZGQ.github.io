@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="后台," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="框架介绍Spring MVCSpring MVC基于传统Spring的MVC模式的开发框架。 MVC设计模式在Spring MVC中表现为 模型 - 视图 - 控制器，模型封装应用程序的数据和一般他们会组成的POJO(Plain Ordinary Java Object)简单的Java对象，视图(View)是负责呈现模型数据并且一般由它生成HTML输出，客户端浏览器来解析显示，控制器(Contr">
+<meta name="keywords" content="后台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-MVC-Hibernate-搭建后台服务">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/Spring-MVC-Hibernate/index.html">
+<meta property="og:site_name" content="大巧不工">
+<meta property="og:description" content="框架介绍Spring MVCSpring MVC基于传统Spring的MVC模式的开发框架。 MVC设计模式在Spring MVC中表现为 模型 - 视图 - 控制器，模型封装应用程序的数据和一般他们会组成的POJO(Plain Ordinary Java Object)简单的Java对象，视图(View)是负责呈现模型数据并且一般由它生成HTML输出，客户端浏览器来解析显示，控制器(Contr">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/26/Spring-MVC-Hibernate/1.png">
+<meta property="og:updated_time" content="2018-11-11T05:49:19.408Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-MVC-Hibernate-搭建后台服务">
+<meta name="twitter:description" content="框架介绍Spring MVCSpring MVC基于传统Spring的MVC模式的开发框架。 MVC设计模式在Spring MVC中表现为 模型 - 视图 - 控制器，模型封装应用程序的数据和一般他们会组成的POJO(Plain Ordinary Java Object)简单的Java对象，视图(View)是负责呈现模型数据并且一般由它生成HTML输出，客户端浏览器来解析显示，控制器(Contr">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/26/Spring-MVC-Hibernate/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/26/Spring-MVC-Hibernate/"/>
+
+
+
+
+
+  <title>Spring-MVC-Hibernate-搭建后台服务 | 大巧不工</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大巧不工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/Spring-MVC-Hibernate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring-MVC-Hibernate-搭建后台服务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T13:51:53+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="框架介绍"><a href="#框架介绍" class="headerlink" title="框架介绍"></a>框架介绍</h2><h3 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h3><p>Spring MVC基于传统Spring的MVC模式的开发框架。 MVC设计模式在Spring MVC中表现为 模型 - 视图 - 控制器，模型封装应用程序的数据和一般他们会组成的POJO(Plain Ordinary Java Object)简单的Java对象，视图(View)是负责呈现模型数据并且一般由它生成HTML输出，客户端浏览器来解析显示，控制器(Controller)负责处理用户的请求，并建立适当的模型，并把它传递给视图渲染。</p>
+<a id="more"></a>
+<p>在Spring MVC中，有一个很重要的类是DispatcherServlet，叫中央前端控制器，所有的请求都由该控制器接受并分发到到合适的处理器，处理器解析请求直接返回Response或者跳转jsp页面，这些过程都要通过中央前端处理器。如图1所示：</p>
+<p><img src="/2017/12/26/Spring-MVC-Hibernate/1.png" alt="" title="Spring MVC"></p>
+<p>接收HTTP请求后，DispatcherServlet 咨询 HandlerMapping 来调用相应的控制器。<br>该控制器接受请求并调用基于使用GET或POST方法相应的服务方法。服务方法将基于定义的业务逻辑设置模型数据，并返回视图名到DispatcherServlet.<br>DispatcherServlet将需要帮助的ViewResolver从拾取到该请求所定义的视图。<br>一旦视图被敲定，DispatcherServlet会传递模型数据是在浏览器上最终呈现的视图。</p>
+<h3 id="Spring-MVC的基本使用"><a href="#Spring-MVC的基本使用" class="headerlink" title="Spring MVC的基本使用"></a>Spring MVC的基本使用</h3><p>在java web项目中，都有一个web.xml文件用于配置当前项目，在这里，我们可以通过简单的对比了解Spring MVC的作用在没有使用Spring MVC框架前， 单纯的使用servlet接受网络请求的过程是这样的 ：</p>
+<p>配置web.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;web-app&gt;</span><br><span class="line">&lt;!-- 配置servlet--&gt;</span><br><span class="line">  &lt;servlet&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!-- servlet名称--&gt;</span><br><span class="line">    &lt;servlet-name&gt;Sorry&lt;/servlet-name&gt;</span><br><span class="line">    &lt;!-- 对应servlet要指向的HttpServlet类--&gt;</span><br><span class="line">    &lt;servlet-class&gt;moreservlets.SorryServlet&lt;/servlet-class&gt;</span><br><span class="line">  &lt;/servlet&gt;</span><br><span class="line">  &lt;!-- 映射servlet到url--&gt;</span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">    &lt;!--这里表示所有以/servlet/开头的请求都会由Sorry这个Servlet来处理--&gt;</span><br><span class="line">    &lt;servlet-name&gt; Sorry &lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/servlet/*&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="不使用SpringMVC时的网络请求"><a href="#不使用SpringMVC时的网络请求" class="headerlink" title="不使用SpringMVC时的网络请求"></a>不使用SpringMVC时的网络请求</h4><p>继承HttpServlet类，并复写doGet()，doPost()等方法来处理请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class SorryServlet extends HttpServlet &#123;  </span><br><span class="line">  public void doGet(HttpServletRequest request,  HttpServletResponse response)  throws ServletException, IOException &#123;  </span><br><span class="line">    response.setContentType(&quot;text/html&quot;);  </span><br><span class="line">    PrintWriter out = response.getWriter();  </span><br><span class="line">    String title = &quot;Invoker Servlet Disabled.&quot;;  </span><br><span class="line">    out.println(ServletUtilities.headWithTitle(title) +   &quot;&lt;BODY BGCOLOR=/&quot;#FDF5E6/&quot;&gt;/n&quot; +   &quot;&lt;H2&gt;&quot; + title + &quot;&lt;/H2&gt;/n&quot; +   &quot;Sorry, access to servlets by means of/n&quot; +   &quot;URLs that begin with/n&quot; +   &quot;http://host/webAppPrefix/servlet//n&quot; +   &quot;has been disabled./n&quot; +   &quot;&lt;/BODY&gt;&lt;/HTML&gt;&quot;);  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>很明显，如果需求中有很多的请求，那么web.xml文件将会变得臃肿不堪，同时也要写大量的HttpServlet类用于处理请求，不利于代码的维护。  </p>
+<h4 id="使用Spring-mvc"><a href="#使用Spring-mvc" class="headerlink" title="使用Spring mvc"></a>使用Spring mvc</h4><p>接受网络请求是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">配置web.xml文件</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.0&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- spring 配置文件 默认是/WEB-INF/applicationContext.xml ，在这里可以配置数据库地址，数据库文件，java bean等等--&gt;</span><br><span class="line"></span><br><span class="line">&lt;context-param&gt;</span><br><span class="line"> &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line"> &lt;!-- 默认是/WEB-INF/applicationContext.xml --&gt;</span><br><span class="line"> &lt;param-value&gt;/WEB-INF/applicationContext.xml&lt;/param-value&gt;</span><br><span class="line"> &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line"> &lt;listener&gt;</span><br><span class="line"> &lt;listener-class&gt;</span><br><span class="line"> org.springframework.web.context.ContextLoaderListener</span><br><span class="line"> &lt;/listener-class&gt;</span><br><span class="line"> &lt;/listener&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- spring mvc的中央前端分发器配置，不同于纯Servlet，所有的网络请求都经过该类然后分发--&gt;</span><br><span class="line"> &lt;servlet&gt;</span><br><span class="line"> &lt;servlet-name&gt;SpringMVC&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line"> &lt;!-- 配置文件，配置了beans --&gt;</span><br><span class="line"> &lt;init-param&gt;</span><br><span class="line"> &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line"> &lt;!-- 默认是/WEB-INF/[servlet名字]-servlet.xml，在这个文件里配置控制器所在的包 --&gt;</span><br><span class="line"> &lt;param-value&gt;/WEB-INF/SpringMVC-servlet.xml&lt;/param-value&gt;</span><br><span class="line"> &lt;/init-param&gt;</span><br><span class="line"> &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line"> &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!--同样需要映射url，参数&lt;url-pattern&gt;表示所有的请求都由SpringMVC这个中央前端控制器接受 --&gt;</span><br><span class="line"> &lt;servlet-mapping&gt;</span><br><span class="line"> &lt;servlet-name&gt;SpringMVC&lt;/servlet-name&gt;</span><br><span class="line"> &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--转码控制 --&gt;</span><br><span class="line"> &lt;filter&gt;</span><br><span class="line"> &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line"> &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;</span><br><span class="line"> &lt;init-param&gt;</span><br><span class="line"> &lt;param-name&gt;encoding&lt;/param-name&gt;</span><br><span class="line"> &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line"> &lt;/init-param&gt;</span><br><span class="line"> &lt;init-param&gt;</span><br><span class="line"> &lt;param-name&gt;forceEncoding&lt;/param-name&gt;</span><br><span class="line"> &lt;param-value&gt;true&lt;/param-value&gt;</span><br><span class="line"> &lt;/init-param&gt;</span><br><span class="line"> &lt;/filter&gt;</span><br><span class="line"> &lt;filter-mapping&gt;</span><br><span class="line"> &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line"> &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/filter-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="定义控制器："><a href="#定义控制器：" class="headerlink" title="定义控制器："></a>定义控制器：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//注解Controller表示这个类是一个控制器</span><br><span class="line">@Controller</span><br><span class="line">public class AppInfoController &#123;</span><br><span class="line"> private Logger logger = Logger.getLogger(AppInfoController.class);</span><br><span class="line"></span><br><span class="line">//RequestMapping注解表示这个方法处理 /app的请求</span><br><span class="line"> @RequestMapping(value = &quot;/app&quot;,method = RequestMethod.GET)</span><br><span class="line"> public void getAppInfoById(HttpServletRequest request, HttpServletResponse response) throws IOException &#123;</span><br><span class="line"> response.getWriter().append(&quot;Hello World&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此使用Spring MVC的话，只需要在web.xml文件中配置DispatcherServlet，然后通过Controller注解一个类为控制器，再通过RequestMapping注解指定某方法可以接受某一类请求即可。这是最简单的使用，Spring MVC还提供很多其他的注解方式，比如ResponseBody注解直接将函数返回值作为Response的body返回，或者直接返回jsp文件名称并跳转页面等，不在赘述。</p>
+<h2 id="Hibernate"><a href="#Hibernate" class="headerlink" title="Hibernate"></a>Hibernate</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，并将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，自动执行，使得我们可以使用对象编程思维来操纵数据库。 Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用， 完成数据持久化的任务。</p>
+<h3 id="hibernate使用"><a href="#hibernate使用" class="headerlink" title="hibernate使用"></a>hibernate使用</h3><p>在引入Hibernate类库之后，需要完成两个步骤，涉及到两种文件：</p>
+<h4 id="1-配置Hibernate"><a href="#1-配置Hibernate" class="headerlink" title="1.配置Hibernate"></a>1.配置Hibernate</h4><p>hibernate.cfg.xml 文件：这是hibernate的配置文件，在这里要做的事包括但不限于：<br>  a. 操作的数据库的地址，账户，密码<br>  b. .配置数据库驱动</p>
+<h4 id="2-实体类及映射文件"><a href="#2-实体类及映射文件" class="headerlink" title="2.实体类及映射文件"></a>2.实体类及映射文件</h4><p>POJO的映射文件。例如有一个AppInfo的模型类，为了使hibernate可以将读出来的数据直接转化为对象，需要创建相对应的AppInfo.hbm.xml文件，下面以AppInfo类为例进行说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//这个是AppInfo model类，要求属性私有，并提供相应的setter和getter</span><br><span class="line">public class AppInfo implements java.io.Serializable &#123;</span><br><span class="line">  private static final long serialVersionUID = 1111111111111111111L;</span><br><span class="line"></span><br><span class="line">  private long id = 0;</span><br><span class="line">  private String appId;</span><br><span class="line">  public void setId(long id)&#123;</span><br><span class="line">    this.id=id;</span><br><span class="line">  &#125;</span><br><span class="line">  public long getId()&#123;</span><br><span class="line">    return id;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setAppId(String appId)&#123;</span><br><span class="line">    this.appId = appId;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getAppId()&#123;</span><br><span class="line">    return appId;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对应的AppInfo.hbm.xml文件，其中id标签表示将属性id作为数据库的主键，property标签对应AppInfo类中的appId属性，其他属性以此类推<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE hibernate-mapping PUBLIC &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot; &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;</span><br><span class="line">&lt;hibernate-mapping package=&quot;qiyi.vr.app.model&quot;&gt;</span><br><span class="line"> &lt;class name=&quot;AppInfo&quot; table=&quot;app_info&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;id name=&quot;id&quot; type=&quot;java.lang.Long&quot;&gt;</span><br><span class="line">      &lt;column name=&quot;id&quot; /&gt;</span><br><span class="line">      &lt;generator class=&quot;native&quot; /&gt;</span><br><span class="line">    &lt;/id&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property name=&quot;appId&quot; type=&quot;java.lang.String&quot;&gt;</span><br><span class="line">      &lt;column name=&quot;app_id&quot; /&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"> &lt;/class&gt;</span><br><span class="line">&lt;/hibernate-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<p>注：关于hbm.xml文件的生成：在MyEclipse中，可以通过根据数据库的字段反向映射来生成hbm.xml文件，但是这样会生成两个hbm.xml文件，具体原因及使用方法未知</p>
+<h4 id="3-注册映射文件"><a href="#3-注册映射文件" class="headerlink" title="3.注册映射文件"></a>3.注册映射文件</h4><p>在hibernate.cfg.xml文件中注册上面得到的映射文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mapping resource=&quot;qiyi/vr/app/model/AppInfo.hbm.xml&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-hibernate与数据库的交互"><a href="#4-hibernate与数据库的交互" class="headerlink" title="4.hibernate与数据库的交互"></a>4.hibernate与数据库的交互</h4><p>hibernate与数据库的交互涉及到三个比较重要的类：  </p>
+<p>SessionFactory：SessionFactory实例对应一个数据存储源，其特点是1.线程安全，同一个SessionFactory可被多个线程共享2.重量级，SessionFactory需要大缓存，缓存中会存储预设的SQL语句，因此，如果只需要访问一个数据库，那么创建一个SessionFactory对象即可</p>
+<p>Session：Session是持久化管理器，由SessionFactory生成，其特点是：1线程不安全，session代表和当前数据库之间的一次操作，尽量避免多线程共享session2.轻量级，创建session耗费的资源相对较少3.session又被称为Hibernate的一级缓存，存放当前工作单元加载的对象，使用完毕要关闭session</p>
+<p>Transaction：Transaction接口是Hibernate数据库事务接口，Hibernate进行持久化操作时必须进行事务控制，简单说就是具体的数据库操作要在开启事务后进行，然后由事务进行commit，很类似于Android FragmentManager的Transaction。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public long insert(AppInfo entity) throws SQLException &#123;</span><br><span class="line">   // TODO Auto-generated method stub</span><br><span class="line">   Session session = HibernateSessionFactory.getSession();</span><br><span class="line">   Transaction transaction = session.beginTransaction();</span><br><span class="line">   session.save(entity);</span><br><span class="line">   transaction.commit();</span><br><span class="line">   session.close();</span><br><span class="line">   return 0;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/后台/" rel="tag"># 后台</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/26/jni-tips/" rel="next" title="Jni开发知识点">
+                <i class="fa fa-chevron-left"></i> Jni开发知识点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/26/image_processing/" rel="prev" title="图像处理基础">
+                图像处理基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">99个小号</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/newerZGQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#框架介绍"><span class="nav-number">1.</span> <span class="nav-text">框架介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC"><span class="nav-number">1.1.</span> <span class="nav-text">Spring MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC的基本使用"><span class="nav-number">1.2.</span> <span class="nav-text">Spring MVC的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不使用SpringMVC时的网络请求"><span class="nav-number">1.2.1.</span> <span class="nav-text">不使用SpringMVC时的网络请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Spring-mvc"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用Spring mvc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义控制器："><span class="nav-number">1.2.3.</span> <span class="nav-text">定义控制器：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hibernate"><span class="nav-number">2.</span> <span class="nav-text">Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate使用"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-配置Hibernate"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.配置Hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-实体类及映射文件"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.实体类及映射文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-注册映射文件"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.注册映射文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-hibernate与数据库的交互"><span class="nav-number">2.2.4.</span> <span class="nav-text">4.hibernate与数据库的交互</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">99个小号</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

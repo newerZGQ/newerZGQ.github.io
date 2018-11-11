@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数学," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="卷积函数定义：设:$f(x)$, $g(x)$ 是R1上的两个可积函数，作积分$${\int_{-\infty}^{\infty}}f(\tau)\ast\,g(x-\tau)\,\mathrm{d}\tau$$ 可以证明，关于几乎所有的实数$x$，上述积分是存在的。这样，随着$x$的不同取值，这个积分就定义了一个新函数$h(x)$，称为函数$f$与$g$的卷积，记为$h(x)=(f\ast\,g">
+<meta name="keywords" content="数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积与傅立叶">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/convolution-introduction/index.html">
+<meta property="og:site_name" content="大巧不工">
+<meta property="og:description" content="卷积函数定义：设:$f(x)$, $g(x)$ 是R1上的两个可积函数，作积分$${\int_{-\infty}^{\infty}}f(\tau)\ast\,g(x-\tau)\,\mathrm{d}\tau$$ 可以证明，关于几乎所有的实数$x$，上述积分是存在的。这样，随着$x$的不同取值，这个积分就定义了一个新函数$h(x)$，称为函数$f$与$g$的卷积，记为$h(x)=(f\ast\,g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/trigonometric_orthogonal.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/Fourier_series.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/Fourier_series_and_transform.gif">
+<meta property="og:updated_time" content="2018-11-03T04:31:36.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="卷积与傅立叶">
+<meta name="twitter:description" content="卷积函数定义：设:$f(x)$, $g(x)$ 是R1上的两个可积函数，作积分$${\int_{-\infty}^{\infty}}f(\tau)\ast\,g(x-\tau)\,\mathrm{d}\tau$$ 可以证明，关于几乎所有的实数$x$，上述积分是存在的。这样，随着$x$的不同取值，这个积分就定义了一个新函数$h(x)$，称为函数$f$与$g$的卷积，记为$h(x)=(f\ast\,g">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/26/convolution-introduction/trigonometric_orthogonal.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/26/convolution-introduction/"/>
+
+
+
+
+
+  <title>卷积与傅立叶 | 大巧不工</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大巧不工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/convolution-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">卷积与傅立叶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T21:46:15+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>函数定义：设:$f(x)$, $g(x)$ 是R1上的两个可积函数，作积分<br>$${\int_{-\infty}^{\infty}}f(\tau)\ast\,g(x-\tau)\,\mathrm{d}\tau$$</p>
+<p>可以证明，关于几乎所有的实数$x$，上述积分是存在的。这样，随着$x$的不同取值，这个积分就定义了一个新函数$h(x)$，称为函数$f$与$g$的卷积，记为$h(x)=(f\ast\,g)(x)$。<br>容易验证，$(f\ast\,g)(x)=\,(g\ast\,f)(x)$，并且 $(f\ast\,g)(x)$ 仍为可积函数。这就是说，把卷积代替乘法，$L1(R1)$空间是一个代数，甚至是巴拿赫代数。<br>离散表达：<br>$$y(n) = \sum_{i=-\infty}^{\infty}x(i)h(n-i) = x(n)\ast\,h(t)$$</p>
+<a id="more"></a>
+<h3 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h3><p>首先要明确，卷积只在线性时不变系统起作用，所以我们接下来的讨论均在此条件下进行。线性时不变系统：</p>
+<ol>
+<li>线性系统：系统的输入和输出具有线性关系</li>
+<li>时不变系统：系统的参数不随时间而变化，即不管输入信号作用的时间先后，输出信号响应的形状均相同，仅是从出现的时间不同，与系统状态无关。</li>
+</ol>
+<p>物理意义：对于输入信号$f(τ)$,响应函数$g(τ)$，在t时刻的输出信号即为两者的卷积：<br>  $${\int_{-\infty}^{\infty}}f(\tau)g(t-\tau)\,\mathrm{d}\tau$$<br>该式与上面公式区别仅在于改变了变量符号为时间t，主要为了便于理解。</p>
+<h4 id="离散情况"><a href="#离散情况" class="headerlink" title="离散情况"></a>离散情况</h4><p>那么，为什么将两个时间信号这样积分，或者说求卷积就是t时刻的输出信号呢？举例来说：<br>第一年，小明存入100元钱，年利率是5%，按复利计算（即将每一年所获利息加入本金，以计算下一年的利息），那么在五年之后他能拿到的钱数是$100(1+5\%)^5$，如此类推，第二年存入100，四年后能拿到$100(1+5\%)^4$，连续存五年，列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>本金</th>
+<th>第一年</th>
+<th>第二年</th>
+<th>第三年</th>
+<th>第四年</th>
+<th>第五年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\small100$</td>
+<td>$\small100(1+5\%)^1$</td>
+<td>$\small100(1+5\%)^2$</td>
+<td>$\small100(1+5\%)^3$</td>
+<td>$\small100(1+5\%)^4$</td>
+<td>$\small100(1+5\%)^5$</td>
+</tr>
+<tr>
+<td></td>
+<td>$\small100$</td>
+<td>$\small100(1+5\%)^1$</td>
+<td>$\small100(1+5\%)^2$</td>
+<td>$\small100(1+5\%)^3$</td>
+<td>$100(1+5\%)^4$</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>$\small100$</td>
+<td>$\small100(1+5\%)^1$</td>
+<td>$\small100(1+5\%)^2$</td>
+<td>$\small100(1+5\%)^3$</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>$\small100$</td>
+<td>$\small100(1+5\%)^1$</td>
+<td>$\small100(1+5\%)^2$</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>$\small100$</td>
+<td>$\small100(1+5\%)^1$</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>$\small100$</td>
+</tr>
+</tbody>
+</table>
+<p>最终，在第五年小明拿到钱：<br>$$\small100(1+5\%)^1 + 100(1+5\%)^2 + 100(1+5\%)^3 + 100(1+5\%)^4 + 100(1+5\%)^5$$<br>对应到上面的离散公式：<br>$$\sum_{i=0}^{5}x(i)h(5-i)$$<br>其中，$x(i) = 100$,$h(5-i) = {(1+5)}^{5-i}$</p>
+<p>这里计算结果即为在第五年拿到的总钱数，也是小明存钱函数（输入信号）$x(i) = 100$与复利计算函数（响应函数）$h(i) = {(1+5)}^{i}$ 的卷积结果。</p>
+<h4 id="连续情况"><a href="#连续情况" class="headerlink" title="连续情况"></a>连续情况</h4><p>初次看到卷积积分公式时，对于将两个关于$x$的函数在$τ$上积分不理解，这也直接导致对卷积数学意义和物理意义的理解偏差。<br>举例，假如有响应函数$h(t)$,那么对于输入信号$f(t)$，在时刻T，将两者反褶相乘积分，画图举例 （）</p>
+<p>其实，$τ$也是时间，只是我们在积分公式中，给定了时刻$t$。而给定t意味着输入信号与响应函数的相对位置确定，这就然后让$τ$在 $(-\infty,t]$ 上积分，我们知道积分可以看作无数个值的累加，那么从左往右的累加过程，就是 $(-\infty,t]$ 中所有时刻输入信号在响应函数作用下对t时刻输出信号的累加，这就是卷积。那么为什么会出现$τ$、$t-τ$、$τ+(t-τ)$刚好是t的看似巧妙的情况呢？这是因为，如果当前时间为t，那么在0时刻的输出信号在t时刻的响应函数就是$h(t-0)$,同样的，在τ时刻的输出信号在t时刻的响应函数就是$h(t-τ)$,没有什么数学上的巧合与美丽，只有实际的应用与计算。其实写到这里，已经觉得是在说废话了。</p>
+<p>假设在一个线性时不变系统中，输入信号$x(t)$, 冲击信号$h(t)$,那么输出信号即为$x(t)\ast\,h(t)$，其步骤为：</p>
+<ol>
+<li>变换变量$t$为$τ$</li>
+<li>冲击信号反褶 $h(-τ)$</li>
+<li>时移 $h(t-τ)$</li>
+<li>相乘 $x(τ)h(t-τ)$</li>
+<li>积分</li>
+</ol>
+<p>这是卷积计算的步骤，很好理解，很好计算，这里权作记录。</p>
+<h2 id="矩阵卷积"><a href="#矩阵卷积" class="headerlink" title="矩阵卷积"></a>矩阵卷积</h2><p>矩阵的卷积与一维离散卷积类似，只是反转平移的过程变为将响应矩阵旋转180度，这样刚好形成$f(τ)h(t-τ)$。<br>比如，现有矩阵A，B：<br>$${A} = \left(\begin{matrix} 1 &amp; 2 \\ 3 &amp; 4 \end{matrix} \right)\,\,\,\,\,\,{B} = \left(\begin{matrix} 5 &amp; 6 \\ 7 &amp; 8 \end{matrix} \right)$$<br>变化矩阵B，三种方法：</p>
+<ol>
+<li>直接旋转180</li>
+<li>沿对角线分别反转</li>
+<li>同时反转行和列<br>三种方法只是利用了矩阵基本性质，不赘述。<br>假设B翻转后得矩阵C：<br>$${C} = \left(\begin{matrix} 8 &amp; 7 \\ 6 &amp; 5 \end{matrix} \right)$$<br>那么，AB卷积的过程就是是将AC矩阵对应位置的元素相乘，并将结果累加，在图像处理中经常用到这种方法。AB卷积结果为：<br>$$5\cdot8+6\cdot7+7\cdot6+8\cdot5 = 164$$<br>在深度学习中，矩阵卷积应用广泛，具体可参考 – <a href="https://mlnotebook.github.io/post/CNN1/" target="_blank" rel="noopener">矩阵卷积</a></li>
+</ol>
+<h2 id="卷积定理"><a href="#卷积定理" class="headerlink" title="卷积定理"></a>卷积定理</h2><p>卷积定理是傅立叶变换满足的一个重要性质。卷积定理指出，函数卷积的傅立叶变换是函数傅立叶变换的乘积。具体分为时域卷积定理和频域卷积定理，时域卷积定理即时域内的卷积对应频域内的乘积；频域卷积定理即频域内的卷积对应时域内的乘积，两者具有对偶关系。<br>若<br>  $$f_1(t)\leftrightarrow\,F_1(\omega)$$<br>  $$f_2(t)\leftrightarrow\,F_2(\omega)$$<br>$F$ 表示傅里叶变换。<br>则时域卷积定理：<br>$$F(f_1(t)\ast\,f_2(t)) = F_1(\omega)F_2(\omega)$$<br>频域卷积定理：<br>$$F[f_1(t)f_2(t)] = \frac{1}{2\pi}F_1(\omega)F_2(\omega)$$<br>卷积定理揭示了时间域与频率域的对应关系。</p>
+<h2 id="去卷积"><a href="#去卷积" class="headerlink" title="去卷积"></a>去卷积</h2><h2 id="傅里叶"><a href="#傅里叶" class="headerlink" title="傅里叶"></a>傅里叶</h2><h3 id="傅里叶级数"><a href="#傅里叶级数" class="headerlink" title="傅里叶级数"></a>傅里叶级数</h3><p>对于任意周期函数，都可以表示成一系列三角函数的和。<br>那么为什么可以做这种变换呢？这可以几何或者矩阵做类比，在三维空间几何中，我们可以用$(1,0,0),(0,1,0),(0,0,1)$三个空间向量的线性组合来表示这个空间中的所有向量，这三个向量两两正交，称为三维空间向量的基。同理从矩阵的角度看，单元矩阵的每行或者每列也是两两正交，那么每一行都可以看作这个矩阵空间的基，使用这些基向量的线性叠加可以表示任意一个矩阵,如下：<br>$$\left(\begin{matrix} 1 &amp; 0 \\ 0 &amp; 1 \end{matrix} \right) = \left(\begin{matrix} 1 &amp; 0 \\ 0 &amp; 0 \end{matrix} \right) + \left(\begin{matrix} 0 &amp; 0 \\ 0 &amp; 1 \end{matrix} \right)$$<br>而对于函数，数学家也发现同样的现象，使用无数个相互正交的函数可以近似的表示任意一个周期函数，问题是这无数个两两正交的函数怎么找呢，三角函数刚好完美支持，而傅里叶级数选取的这个基函数就是三角函数,事实上，傅里叶级数可以有多种变化方式，三角函数只是其中一种。三角函数的正交性：<br><img src="/2017/12/26/convolution-introduction/trigonometric_orthogonal.png" alt=""></p>
+<p>下面我们看傅里叶级数的表达，对于任意周期为T的函数，只要满足狄利赫里条件，则函数可以表达为：<br>$$f(x) = \sum_{k=1}^\infty(a_k\,sin(kx) + b_k\,cos(kx)) + \frac{a_0}{2}$$</p>
+<p>其中：<br>$$a_0 = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)dx$$</p>
+<p>$$a_k = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)dx$$</p>
+<p>$$b_k = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)cos(kx)dx$$</p>
+<p>关于$a_0$:将傅里叶级数两边在一个周期上同时积分，$sin$、$cos$的积分均为0，即可得$a_0$</p>
+<p>关于$a_n$:等式两边同时乘以$sin(nx)$再进行积分，根据三角函数正交定理，只有同频率的元素在周期上的积分才不为零：</p>
+<p>$$\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)=\int_{\frac{2}{T}}^2{a_n}\,sin(kx)^2dx$$</p>
+<p>$$\int_{-\,\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx) = a_n\frac{T}{2}$$</p>
+<p>即得$a_n$<br>同理得$b_n$<br>傅里叶展开后，原函数与展开式，以及展开式的频谱、相位关系图，现在有了各频率下的幅值和相位，原函数的频域信息就都体现出来了：</p>
+<p><img src="/2017/12/26/convolution-introduction/Fourier_series.jpg" alt=""></p>
+<p>可以看出，将展开级数沿z轴放置，从图右边看，就是频谱，从上面看就是相位，需要注意的是，由于傅里叶级数中只使用了正弦和余弦函数，因此相位永远是0或者$\pi$，另外，级数展开后得频率非连续，是一个个独立的幅值，对应的频率是原函数频率的整数倍，这样的频谱是离散的。<br>下面的动图也有助于理解：</p>
+<p><img src="/2017/12/26/convolution-introduction/Fourier_series_and_transform.gif" alt=""></p>
+<h4 id="傅里叶级数的复数形式"><a href="#傅里叶级数的复数形式" class="headerlink" title="傅里叶级数的复数形式"></a>傅里叶级数的复数形式</h4><p>复数形式可以由欧拉公式变化而来，只是简单的代入，不再赘述。<br>欧拉公式：<br>$$e^{it} = cos(t) + isin(t)$$<br>傅里叶复数：<br>$$f(x) = \sum_{-\infty}^{\infty}a_ke^{jk\omega\,t}$$<br>其中：<br>$$a_k = \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}x(t)e^{-jk\omega\,t}dt$$</p>
+<h3 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h3><p>傅里叶级数有其局限性，只能用于周期函数，那么对于非周期函数怎么办呢？<br>对于非周期函数，我们可以这样思考，非周期看作周期无穷大，那么对应的$\omega$则无穷小，<br>傅里叶级数：<br>$$f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}F(\omega)e^{i\omega\,t}d\omega$$<br>其中：<br>$$F(\omega) = \int_{-\infty}^{\infty}f(t)e^{-i\omega\,t}dt$$<br>注意,第二个公式才叫做 $f(x)$ 的傅里叶变换。更重要的是，这个式子里的角频率 $\omega$ 就不是某一个频点了，它可以取频谱轴上的任意值，它是连续的！非周期的信号的频谱遍布整个频率轴！<br>对某一点特定角频率 $\omega$ 取值，$F(\omega)$ 就是角频率 $\omega$ 在信号 $f(t)$ 中的”份量”！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/26/image_processing/" rel="next" title="图像处理基础">
+                <i class="fa fa-chevron-left"></i> 图像处理基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/27/build-blog-on-github/" rel="prev" title="博客建立">
+                博客建立 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">99个小号</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/newerZGQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积"><span class="nav-number">1.</span> <span class="nav-text">卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解"><span class="nav-number">1.1.</span> <span class="nav-text">理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#离散情况"><span class="nav-number">1.1.1.</span> <span class="nav-text">离散情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连续情况"><span class="nav-number">1.1.2.</span> <span class="nav-text">连续情况</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵卷积"><span class="nav-number">2.</span> <span class="nav-text">矩阵卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积定理"><span class="nav-number">3.</span> <span class="nav-text">卷积定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去卷积"><span class="nav-number">4.</span> <span class="nav-text">去卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#傅里叶"><span class="nav-number">5.</span> <span class="nav-text">傅里叶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#傅里叶级数"><span class="nav-number">5.1.</span> <span class="nav-text">傅里叶级数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#傅里叶级数的复数形式"><span class="nav-number">5.1.1.</span> <span class="nav-text">傅里叶级数的复数形式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#傅里叶变换"><span class="nav-number">5.2.</span> <span class="nav-text">傅里叶变换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">99个小号</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

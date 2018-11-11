@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="选择排序一般用于小型数组1234567891011public static void selection(Comparable[] a)&amp;#123;    for (int i = 0; i &amp;lt; a.length; i++)&amp;#123;        int min = i;        for (int j = i + 1 ; j &amp;lt; a.length; j++)&amp;#123;">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sort-algorithm">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/sort-algorithm/index.html">
+<meta property="og:site_name" content="大巧不工">
+<meta property="og:description" content="选择排序一般用于小型数组1234567891011public static void selection(Comparable[] a)&amp;#123;    for (int i = 0; i &amp;lt; a.length; i++)&amp;#123;        int min = i;        for (int j = i + 1 ; j &amp;lt; a.length; j++)&amp;#123;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/sort-algorithm/1.png">
+<meta property="og:updated_time" content="2018-11-11T05:49:17.138Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sort-algorithm">
+<meta name="twitter:description" content="选择排序一般用于小型数组1234567891011public static void selection(Comparable[] a)&amp;#123;    for (int i = 0; i &amp;lt; a.length; i++)&amp;#123;        int min = i;        for (int j = i + 1 ; j &amp;lt; a.length; j++)&amp;#123;">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/23/sort-algorithm/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/23/sort-algorithm/"/>
+
+
+
+
+
+  <title>sort-algorithm | 大巧不工</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大巧不工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/sort-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">sort-algorithm</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T10:45:24+08:00">
+                2018-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>一般用于小型数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void selection(Comparable[] a)&#123;</span><br><span class="line">    for (int i = 0; i &lt; a.length; i++)&#123;</span><br><span class="line">        int min = i;</span><br><span class="line">        for (int j = i + 1 ; j &lt; a.length; j++)&#123;</span><br><span class="line">            if (a[min].compareTo(a[j]) &gt; 0)&#123;</span><br><span class="line">                min = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        exch(a,min,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>一般用于小型数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static void insertion(Comparable[] a)&#123;</span><br><span class="line">    for (int i = 0; i &lt; a.length - 1; i++)&#123;</span><br><span class="line">        for (int j = i ; j &gt; 0 &amp;&amp; a[j-1].compareTo(a[j]) &gt; 0 ; j--)&#123;</span><br><span class="line">            exch(a,j-1,j);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>内循环是插入排序，第一个for循环相当于完成了所有h有序数组的插入排序。比较顺序是：</p>
+<ol>
+<li>第一个h有序数组的前一位插入排序</li>
+<li>第二个h有序数组的前一位插入排序直到第h个有序数组的前一位插入排序</li>
+<li>第一个h有序数组的前两位插入排序直到第h个有序数组的前两位插入排序</li>
+<li>同理，直到第h个有序数组的所有位数插入排序</li>
+</ol>
+<p>下面程序中的h不断减小直到为1，这个时候数组就是有序的了。<br>这个程序中，<code>h = 3*h +1</code>,即1，4，13·····，这个序列叫递增序列，递增序列的选择有很多，可以在运行时计算得到，也可以保存在数组中。递增序列的选择会直接影响希尔排序的性能，在普通情况下，<code>h = 3*h +1</code>足够满足我们。<br>希尔排序的优势在于可以处理中型数组，且不会占用额外的空间。<br>希尔排序与选择排序和插入排序相比，希尔排序也可以用于大型数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void shell(Comparable[] a)&#123;</span><br><span class="line">    int h = 1;</span><br><span class="line">    int N = a.length;</span><br><span class="line">    while(h &lt; N/3) h = h*3 + 1;</span><br><span class="line">    while (h&gt;=1) &#123;</span><br><span class="line">        for (int i = h; i &lt; N; i++) &#123;</span><br><span class="line">            for (int j = i; j &gt;= h &amp;&amp; a[j].compareTo(a[j-h]) &lt; 0; j -= h)</span><br><span class="line">                exch(a,j,j-h);</span><br><span class="line">        &#125;</span><br><span class="line">        h = h/3;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>归并排序，时间复杂度为NlogN，它的主要缺点是需要额外空间，切额外空间的大小与N成正比。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class Merge &#123;</span><br><span class="line"></span><br><span class="line">    private static Comparable[] aux;</span><br><span class="line"></span><br><span class="line">    public static void sort(Comparable[] a)&#123;</span><br><span class="line">        aux = new Comparable[a.length];</span><br><span class="line">        sort(a, 0, a.length - 1);</span><br><span class="line">    &#125;</span><br><span class="line">    //自顶向下递归进行归并排序</span><br><span class="line">    private static void sort(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">        if (hi &lt;= lo) return;</span><br><span class="line">        sort(a,lo,lo + (hi - lo)/2);</span><br><span class="line">        sort(a,lo + (hi - lo)/2 + 1,hi);</span><br><span class="line">        merge(a,lo,hi,lo + (hi - lo)/2);</span><br><span class="line">    &#125;</span><br><span class="line">    //归并方法</span><br><span class="line">    private static void merge(Comparable[] a, int lo, int hi, int mid)&#123;</span><br><span class="line">        for (int i = lo; i &lt;= hi; i++)&#123;</span><br><span class="line">            aux[i] = a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        int i = lo;</span><br><span class="line">        int j = mid + 1;</span><br><span class="line">        for (int k = lo; k &lt;= hi; k++)&#123;</span><br><span class="line">            if (j &gt; hi) a[k] = aux[i++];</span><br><span class="line">            else if (i &gt; mid) a[k] = aux[j++];</span><br><span class="line">            else if (aux[i].compareTo(aux[j])&gt;=0) a[k] = aux[j++];</span><br><span class="line">            else if (aux[i].compareTo(aux[j])&lt;0) a[k] = aux[i++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>归并排序的优化</p>
+<ol>
+<li><p>对于小规模的数组不再递归，而使用简单的选择排序或者插入排序，因为这两种排序在小规模数组上速度很可能比归并快，一般情况下可以将归并排序缩短10%到15%。<br>在子数组长度小于一定值时（这里是4），使用插入排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private static void sort(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    if (hi &lt;= lo) return;</span><br><span class="line">    if ((hi - lo) &lt; 4)&#123;</span><br><span class="line">        insertion(a, lo, hi);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(a,lo,lo + (hi - lo)/2);</span><br><span class="line">    sort(a,lo + (hi - lo)/2 + 1,hi);</span><br><span class="line">    merge(a,lo,hi,lo + (hi - lo)/2);</span><br><span class="line">&#125;</span><br><span class="line">public static void insertion(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    for (int i = lo + 1; i &lt;= hi; i++)&#123;</span><br><span class="line">        for (int j = i ; j &gt; lo &amp;&amp; a[j-1].compareTo(a[j]) &gt; 0 ; j--)&#123;</span><br><span class="line">            exch(a,j-1,j);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>归并时两个子数组，如果左半边的最大值小于右半边的最小值，那么不用归并</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private static void sort(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    if (hi &lt;= lo) return;</span><br><span class="line">    if ((hi - lo) &lt; 4)&#123;</span><br><span class="line">        insertion(a, lo, hi);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(a,lo,lo + (hi - lo)/2);</span><br><span class="line">    sort(a,lo + (hi - lo)/2 + 1,hi);</span><br><span class="line">    if (a[lo + (hi - lo)/2].compareTo(a[lo + (hi - lo)/2 + 1]) &lt; 0) return;</span><br><span class="line">    merge(a,lo,hi,lo + (hi - lo)/2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为了节省将元素复制到辅助数组作用的时间，可以在递归调用的每个层次交换原始数组与辅助数组的角色。</p>
+</li>
+</ol>
+<p>下面代码是实现。实现的核心在于：</p>
+<p>1) 每一层递归中，不论是使用插入排序，还是因为左半边右半边已经有序不需要归并，还是需要归并，都要保证dest的正确有序。<br>2) 进入下一层递归时，源数组和辅助数组角色交换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">public class Merge &#123;</span><br><span class="line"></span><br><span class="line">    public static void sort(Comparable[] a)&#123;</span><br><span class="line">        Comparable[] aux = a.clone();</span><br><span class="line">        //注意，要把a放在dest位置上，否则源数组会少一次归并操作</span><br><span class="line">        sort(aux,a,0, a.length - 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void sort(Comparable[] src, Comparable[] dest, int lo, int hi)&#123;</span><br><span class="line">        if (hi &lt;= lo) return;</span><br><span class="line">        if ((hi - lo) &lt; 4)&#123;</span><br><span class="line">          //注意，小数组的插入排序要在dest上进行</span><br><span class="line">            insertion(dest, lo, hi);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //在进行下一层归并时，交换源数组和辅助数组，避免复制操作</span><br><span class="line">        sort(dest,src,lo,lo + (hi - lo)/2);</span><br><span class="line">        sort(dest,src,lo + (hi - lo)/2 + 1,hi);</span><br><span class="line">        if (src[lo + (hi - lo)/2].compareTo(src[lo + (hi - lo)/2 + 1]) &lt; 0) &#123;</span><br><span class="line">          //如果从源数组判断此次不需要归并，那么也将相应位置元素copy到dest，即保证dest的元素正确有序</span><br><span class="line">            System.arraycopy(src,lo,dest,lo,hi - lo + 1);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //归并排序时保证dest的正确有序，这样在返回上一层归并时，这里的dest可以作为上一层的辅助数组</span><br><span class="line">        merge(src,dest,lo,hi,lo + (hi - lo)/2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void merge(Comparable[] src, Comparable[] dest, int lo, int hi, int mid)&#123;</span><br><span class="line">        int i = lo;</span><br><span class="line">        int j = mid + 1;</span><br><span class="line">        for (int k = lo; k &lt;= hi; k++)&#123;</span><br><span class="line">            if (j &gt; hi) dest[k] = src[i++];</span><br><span class="line">            else if (i &gt; mid) dest[k] = src[j++];</span><br><span class="line">            else if (src[i].compareTo(src[j])&gt;=0) dest[k] = src[j++];</span><br><span class="line">            else if (src[i].compareTo(src[j])&lt;0) dest[k] = src[i++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void insertion(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">        for (int i = lo + 1; i &lt;= hi; i++)&#123;</span><br><span class="line">            for (int j = i ; j &gt; lo &amp;&amp; a[j-1].compareTo(a[j]) &gt; 0 ; j--)&#123;</span><br><span class="line">                exch(a,j-1,j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的是自顶而下的归并，还有自底向上的归并。递归实现的归并排序是算法设计中<em>分治思想</em>的典型应用，即将一个大问题分解成小问题分别解决，再用小问题的答案来解决大问题。在自顶而下的递归中就是这样，在每一次递归中，都降低了数组长度，最后用最深处的微型数组归并结果，反过来求上层递归的答案。<br>其实，由于我们知道上层递归是如何使用下层递归的结果的，所以这里的归并排序可以不使用递归，利用循环，自底向上，先将卫星数组归并，比如先归并长度为1的数组，再归并长度为2的长度为4的，这样下去，将整个数组归并。这样的代码量更少。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void sort(Comparable[] a)&#123;</span><br><span class="line">    aux = new Comparable[a.length];</span><br><span class="line">    int N = a.length;</span><br><span class="line">    for (int sz = 1; sz &lt; N; sz *= 2)&#123;</span><br><span class="line">        for (int lo = 0; lo &lt; N - sz; lo = lo+sz*2)&#123;</span><br><span class="line">            int hi = min(lo+sz*2-1,N-1);</span><br><span class="line">            merge(a,lo,hi,lo + (hi-lo)/2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="基于比较的排序算法"><a href="#基于比较的排序算法" class="headerlink" title="基于比较的排序算法"></a>基于比较的排序算法</h3><p>我们讨论的都是基于比较的排序算法，这些算法的复杂度有上限。<br>命题：没有任何基于比较的算法能够保证使用少于lg(N!)~NlgN次比较将长度为N的数组排序。<br>证明：首先假设没有重复的主键，因为任何排序算法都应该能够处理这种情况。使用二叉树表示所有的比较。<br><img src="/2018/01/23/sort-algorithm/1.png" alt=""><br>上图是N=3的比较树，叶子节点表示排序完成，内部节点表示a[i]和a[j]的一次比较操作，左子树表示a[i]小于a[j]时进行的其他比较，右子树表示a[i]大于a[j]时的其他比较。从根节点到叶子节点的所有路径表示在实际排序中，可能遇到的所有比较。<br>比较树中至少应该有N!个叶子节点，因为长度为N的数组，共有N!中排列方式，如果某个比较树的叶子节点小于N!,那么肯定有一些排列顺序被遗漏，基于这个比较树的算法在使用时，对于某些输入就无法正确的排序。<br>在排序算法中，我们通常关心比较的次数，而最多比较次数就是比较树的高度。高为h的二叉树最多叶子节点$2^h$，比较树中的叶子节点（就是所有的比较路径）数量N!,那么就有$N!<2^h$, 即$h="">\log{N!}$<br>上面的式子告诉我们在设计排序算法时所能达到的最佳效果。即比较次数最低是NlgN。</2^h$,></p>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>归并排序虽然将算法时间复杂度降低到NlogN，但是需要一个与N成正比的辅助栈，而快排则避免了这个缺点，快排是原地排序，只需要一个很小的辅助栈。<br>快排的优点：</p>
+<ol>
+<li>时间复杂度为NlogN</li>
+<li>原地排序，只需要一个很小的辅助栈</li>
+<li>内循环比大多数排序都要小</li>
+<li>归并和希尔排序比快排慢，原因就是他们在内循环中还有移动复制操作。<br>缺点：</li>
+<li>脆弱，在实现时要非常小心才能避免低劣的性能，许多错误都能导致快排的性能只有平方级别。比如在切分不平衡时可能导致快排极为低效，例如第一次从最小元素切分，第二次从第二小元素切分，这样每次只能移动一个元素，导致一个大数组需要切分很多次，事实上，这种极端情况下会比较$$\frac{1}{2}N^2$$次，我们可以在快排前将数组打乱以避免这种情况。</li>
+<li>快排效率依赖切分数组的效果，最好的情况是每次都能将数组对半分。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class Quick &#123;</span><br><span class="line">    public static void sort(Comparable[] a)&#123;</span><br><span class="line">        sort(a,0,a.length-1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void sort(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">        if (lo&gt;=hi) return;</span><br><span class="line">        int j = partition(a,lo,hi);</span><br><span class="line">        sort(a,lo,j-1);</span><br><span class="line">        sort(a,j+1,hi);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int partition(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">        Comparable tmp = a[lo];</span><br><span class="line">        //因为lo位置的元素作为切分元素，所以这里本可以设置为lo+1，之所以设置为lo，是为了后面的先++lo做准备</span><br><span class="line">        int lf = lo;</span><br><span class="line">        //同理这里设置为hi+1，是为后面先--ri做准备</span><br><span class="line">        int ri = hi + 1;</span><br><span class="line">        while(true)&#123;</span><br><span class="line">          //先判断界限，避免溢出，不停循环至第一个大于切分元素的位置</span><br><span class="line">            while (++lf &lt;= hi &amp;&amp; tmp.compareTo(a[lf]) &gt; 0);</span><br><span class="line">            while (--ri &gt;= lf &amp;&amp; tmp.compareTo(a[ri]) &lt; 0);</span><br><span class="line">            if (lf&gt;=ri) break;</span><br><span class="line">            exch(a,lf,ri);</span><br><span class="line">        &#125;</span><br><span class="line">        exch(a,lo,ri);</span><br><span class="line">        return ri;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>算法改进</p>
+<ol>
+<li>切换到插入排序，在微型数组长度较短的情况下，使用插入排序比继续递归要快，一般长度在5-15之间(大多数基于递归的排序都可以这样做)。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private static void sort(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    if (hi &gt; lo + 10) insertion(a,lo,hi);</span><br><span class="line">    if (lo&gt;=hi) return;</span><br><span class="line">    int j = partition(a,lo,hi);</span><br><span class="line">    sort(a,lo,j-1);</span><br><span class="line">    sort(a,j+1,hi);</span><br><span class="line">&#125;</span><br><span class="line">private static void insertion(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    for (int i = lo; i &lt;= hi; i++)&#123;</span><br><span class="line">        for (int j = i; j &gt; lo &amp;&amp; a[j].compareTo(a[i]) &gt; 0; j--)&#123;</span><br><span class="line">            exch(a,i,j);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>三取样切分，使用子数组中一小部分元素的中位数来切分，人们发现将取样大小设为3并用大小居中的元素切分效果最好。还可以将切分元素放在数组末尾作为哨兵来去掉数组边界检查。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private static int partition(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    int x = median(a,lo,lo+1&gt;a.length-1?a.length-1:lo+1,lo+2&gt;a.length-1?a.length-1:lo+2);</span><br><span class="line">    Comparable tmp = a[x];</span><br><span class="line">    exch(a,x,lo);</span><br><span class="line">    int lf = lo;</span><br><span class="line">    int ri = hi + 1;</span><br><span class="line">    while(true)&#123;</span><br><span class="line">        while (++lf &lt;= hi &amp;&amp; tmp.compareTo(a[lf])&gt;0);</span><br><span class="line">        while (--ri &gt;= lf &amp;&amp; tmp.compareTo(a[ri]) &lt; 0);</span><br><span class="line">        if (lf&gt;=ri) break;</span><br><span class="line">        exch(a,lf,ri);</span><br><span class="line">    &#125;</span><br><span class="line">    exch(a,lo,ri);</span><br><span class="line">    return ri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static int median(Comparable[] x, int a, int b, int c)&#123;</span><br><span class="line">    return x[a].compareTo(x[b])&gt;0 ?</span><br><span class="line">            (x[a].compareTo(x[c])&gt;0 ? (x[b].compareTo(x[c]) &gt; 0 ? b : c):a) :</span><br><span class="line">            (x[a].compareTo(x[c])&gt;0 ? a : (x[b].compareTo(x[c]) &gt; 0 ? c : b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>三项切分快速排序</p>
+</li>
+</ol>
+<p>对于包含大量重复元素的数组，使用三项切分将排序时间从线性对数降低到线性级别。性能优于普通快排<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static void sort3Ways(Comparable[] a, int lo, int hi)&#123;</span><br><span class="line">    if (lo&gt;=hi) return;</span><br><span class="line">    Comparable tmp = a[lo];</span><br><span class="line">    int i = lo+1;</span><br><span class="line">    //始终等于tmp的最左位置</span><br><span class="line">    int lt = lo;</span><br><span class="line">    //一次循环结束后，gt刚好在等于tmp的最右位置</span><br><span class="line">    int gt = hi;</span><br><span class="line">    while(i&lt;=gt)&#123;</span><br><span class="line">        int m = tmp.compareTo(a[i]);</span><br><span class="line">        if (m&gt;0) exch(a,i++,lt++);</span><br><span class="line">        //这里的i没有+1，是因为从右边换过来的item大小未知，需要在进行一次比较</span><br><span class="line">        else if (m&lt;0) exch(a,i,gt--);</span><br><span class="line">        else i++;</span><br><span class="line">    &#125;</span><br><span class="line">    sort3Ways(a,lo,lt-1);</span><br><span class="line">    sort3Ways(a,gt+1,hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private static void exch(Comparable[] source,int i, int j)&#123;</span><br><span class="line">    Comparable tmp = source[j];</span><br><span class="line">    source[j] = source[i];</span><br><span class="line">    source[i] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>队列中的元素有优先级，最大有限队列，最小优先队列。以最大优先队列为例，这样的数据结构要求支持两种操作，删除最大元素和插入元素，这里我们学习基于二叉堆数据结构的一种优先队列的经典实现方式，用数组保存元素并按照一定条件排序，以高效的实现删除最大元素和插入元素操作。<br>插入一列元素后一个一个的删除最小元素，就可以完成排序，堆排序算法就是源于优先队列的实现  </p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><h5 id="数组实现（无序）"><a href="#数组实现（无序）" class="headerlink" title="数组实现（无序）"></a>数组实现（无序）</h5><p>参考下压栈的实现，插入时直接将元素插入到数组内，删除最大值时使用一个内循环获得最大元素，然后将最大元素与边界元素互换并删除最大元素。</p>
+<h5 id="数组实现（有序）"><a href="#数组实现（有序）" class="headerlink" title="数组实现（有序）"></a>数组实现（有序）</h5><p>插入时将所有较大元素向右移动一格保持数组有序，这样最大元素始终在边界</p>
+<h5 id="链表表示"><a href="#链表表示" class="headerlink" title="链表表示"></a>链表表示</h5><p>与数组实现类似，要么插入耗时删除高效，要么插入高效删除耗时</p>
+<p>使用无序实现是惰性方法，我们仅在需要的时候才找出最大元素，使用有序实现是积极方法，在插入时保证有序。对于简单的队列和栈，所有操作都可以在常数时间内完成，而优先队列的最坏情况会达到线性时间。而基于数据结构<em>堆</em>的实现能保证插入和删除操作都能更快的执行。</p>
+<h4 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h4><p>数据结构二叉堆的定义：当一个二叉树的每个节点都大于等于他的两个子节点，它被称为堆有序，就是二叉堆。<br>根节点最大  </p>
+<h4 id="数组实现二叉堆"><a href="#数组实现二叉堆" class="headerlink" title="数组实现二叉堆"></a>数组实现二叉堆</h4><p>位置k的节点的父节点的位置是<br>$\biggl\lfloor\frac{k}2\biggr\rfloor$，而他的两个子节点分别是2k和2k+1。这样在数组中使用索引在树中移动，很方便。根节点在数组索引为1的位置（不使用第一个位置）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class MaxPQ &#123;</span><br><span class="line">    private Comparable[] pq;</span><br><span class="line">    private int N = 0;</span><br><span class="line">    public MaxPQ(int maxN)&#123;</span><br><span class="line">        pq = new Comparable[maxN + 1];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //插入操作，先插入到二叉堆最后位置，再上浮，保证堆有序</span><br><span class="line">    public void insert(Comparable a)&#123;</span><br><span class="line">        pq[++N] = a;</span><br><span class="line">        swim(N);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //当元素比父节点大时，上浮保证堆有序</span><br><span class="line">    private void swim(int k)&#123;</span><br><span class="line">        while(k&gt;1 &amp;&amp; pq[k].compareTo(pq[k/2]) &gt; 0)&#123;</span><br><span class="line">            exch(k,k/2);</span><br><span class="line">            k = k/2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //当元素比子节点小时，下潜保证堆有序</span><br><span class="line">    private void sink(int k)&#123;</span><br><span class="line">        while (2*k&lt;=N)&#123;</span><br><span class="line">            int j = 2*k;</span><br><span class="line">            if (j&lt;N &amp;&amp; pq[j].compareTo(pq[j+1]) &lt; 0) j++;</span><br><span class="line">            //如果父节点不比子节点小，结束循环</span><br><span class="line">            if (pq[k].compareTo(pq[j])&gt;0) break;</span><br><span class="line">            exch(k,j);</span><br><span class="line">            k = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //删除最大节点分两步，现将最后的节点与首节点交换，再下潜首节点</span><br><span class="line">    public Comparable delMax()&#123;</span><br><span class="line">        Comparable max = pq[1];</span><br><span class="line">        exch(1,N--);</span><br><span class="line">        pq[N+1] = null;</span><br><span class="line">        sink(1);</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void exch(int a, int b)&#123;</span><br><span class="line">        Comparable tmp = pq[a];</span><br><span class="line">        pq[a] = pq[b];</span><br><span class="line">        pq[b] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于一个含有N个元素的基于堆的优先队列，插入操作只需不超过lgN+1次比较，删除最大元素需要不超过2lgN次比较。</p>
+<h4 id="优化二叉堆"><a href="#优化二叉堆" class="headerlink" title="优化二叉堆"></a>优化二叉堆</h4><ol>
+<li>调整数组大小</li>
+<li>索引优先队列，暂不研究</li>
+</ol>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>我们可以把任意优先队列变成一种排序方法：将所有元素插入一个最小优先队列，再重复删除最小元素即可。我们基于堆实现一种排序方法。  </p>
+<h5 id="基于堆的排序"><a href="#基于堆的排序" class="headerlink" title="基于堆的排序"></a>基于堆的排序</h5><ol>
+<li>用数组实现堆，首先将所有元素直接插入数组中</li>
+<li>将前半部分元素倒序做下潜操作</li>
+<li>从最后一个元素开始逐个做下潜操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public void sort(Comparable[] a)&#123;</span><br><span class="line">    //N是有效元素大小（除去首位）</span><br><span class="line">    int N = a.length-1;</span><br><span class="line">    for (int i = N/2; i &gt;= 1; i--)&#123;</span><br><span class="line">        sink(a,i,N);</span><br><span class="line">    &#125;</span><br><span class="line">    //将首位与最后一个交换，交换后，N减1（这是因为交换后最大元素已经在最后了，之后的操作与最后的最大元素无关），再做sink操作，</span><br><span class="line">    while(N&gt;1)&#123;</span><br><span class="line">        exch(a,N--,1);</span><br><span class="line">        sink(a,1,N);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void exch(Comparable[] pq,int a, int b)&#123;</span><br><span class="line">    Comparable tmp = pq[a];</span><br><span class="line">    pq[a] = pq[b];</span><br><span class="line">    pq[b] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void sink(Comparable[] pq,int k,int N)&#123;</span><br><span class="line">    while (2*k&lt;=N)&#123;</span><br><span class="line">        int j = 2*k;</span><br><span class="line">        if (j&lt;N &amp;&amp; pq[j].compareTo(pq[j+1]) &lt; 0) j++;</span><br><span class="line">        if (pq[k].compareTo(pq[j])&gt;0) break;</span><br><span class="line">        exch(pq,k,j);</span><br><span class="line">        k = j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="堆排序优化"><a href="#堆排序优化" class="headerlink" title="堆排序优化"></a>堆排序优化</h5><p>先下沉再上浮：在下沉过程中可以将较大的元素直接放入堆底，再将其上浮，这样可以减少比较次数。<br>堆排序是目前已知的唯一能够同时最优利用空间和时间的方法。在最坏的情况下也能保证2NlgN次比较和恒定的额外空间。</p>
+<h3 id="各算法对比"><a href="#各算法对比" class="headerlink" title="各算法对比"></a>各算法对比</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/21/algorithm-analysis/" rel="next" title="算法分析">
+                <i class="fa fa-chevron-left"></i> 算法分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/27/algorithm-question/" rel="prev" title="algorithm-question">
+                algorithm-question <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">99个小号</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/newerZGQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">1.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#希尔排序"><span class="nav-number">1.2.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序"><span class="nav-number">1.3.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于比较的排序算法"><span class="nav-number">1.4.</span> <span class="nav-text">基于比较的排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.5.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先队列"><span class="nav-number">1.6.</span> <span class="nav-text">优先队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">1.6.1.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数组实现（无序）"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">数组实现（无序）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数组实现（有序）"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">数组实现（有序）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#链表表示"><span class="nav-number">1.6.1.3.</span> <span class="nav-text">链表表示</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉堆"><span class="nav-number">1.6.2.</span> <span class="nav-text">二叉堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组实现二叉堆"><span class="nav-number">1.6.3.</span> <span class="nav-text">数组实现二叉堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化二叉堆"><span class="nav-number">1.6.4.</span> <span class="nav-text">优化二叉堆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">1.7.</span> <span class="nav-text">堆排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基于堆的排序"><span class="nav-number">1.7.0.1.</span> <span class="nav-text">基于堆的排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#堆排序优化"><span class="nav-number">1.7.0.2.</span> <span class="nav-text">堆排序优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各算法对比"><span class="nav-number">1.8.</span> <span class="nav-text">各算法对比</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">99个小号</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
