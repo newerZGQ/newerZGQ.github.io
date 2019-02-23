@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/trigonometric_orthogonal.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/Fourier_series.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/12/26/convolution-introduction/Fourier_series_and_transform.gif">
-<meta property="og:updated_time" content="2018-11-03T04:31:36.125Z">
+<meta property="og:updated_time" content="2019-01-15T07:42:51.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="卷积与傅立叶">
 <meta name="twitter:description" content="卷积函数定义：设:$f(x)$, $g(x)$ 是R1上的两个可积函数，作积分$${\int_{-\infty}^{\infty}}f(\tau)\ast\,g(x-\tau)\,\mathrm{d}\tau$$ 可以证明，关于几乎所有的实数$x$，上述积分是存在的。这样，随着$x$的不同取值，这个积分就定义了一个新函数$h(x)$，称为函数$f$与$g$的卷积，记为$h(x)=(f\ast\,g">
@@ -463,28 +463,28 @@
 <li>积分</li>
 </ol>
 <p>这是卷积计算的步骤，很好理解，很好计算，这里权作记录。</p>
-<h2 id="矩阵卷积"><a href="#矩阵卷积" class="headerlink" title="矩阵卷积"></a>矩阵卷积</h2><p>矩阵的卷积与一维离散卷积类似，只是反转平移的过程变为将响应矩阵旋转180度，这样刚好形成$f(τ)h(t-τ)$。<br>比如，现有矩阵A，B：<br>$${A} = \left(\begin{matrix} 1 &amp; 2 \\ 3 &amp; 4 \end{matrix} \right)\,\,\,\,\,\,{B} = \left(\begin{matrix} 5 &amp; 6 \\ 7 &amp; 8 \end{matrix} \right)$$<br>变化矩阵B，三种方法：</p>
+<h2 id="矩阵卷积"><a href="#矩阵卷积" class="headerlink" title="矩阵卷积"></a>矩阵卷积</h2><p>矩阵的卷积与一维离散卷积类似，只是反转平移的过程变为将响应矩阵旋转180度，这样刚好形成$f(τ)h(t-τ)$。<br>比如，现有矩阵A，B：<br>$${A} = \left(\begin{matrix} 1 &amp; 2 \ 3 &amp; 4 \end{matrix} \right)\,\,\,\,\,\,{B} = \left(\begin{matrix} 5 &amp; 6 \ 7 &amp; 8 \end{matrix} \right)$$<br>变化矩阵B，三种方法：</p>
 <ol>
 <li>直接旋转180</li>
 <li>沿对角线分别反转</li>
-<li>同时反转行和列<br>三种方法只是利用了矩阵基本性质，不赘述。<br>假设B翻转后得矩阵C：<br>$${C} = \left(\begin{matrix} 8 &amp; 7 \\ 6 &amp; 5 \end{matrix} \right)$$<br>那么，AB卷积的过程就是是将AC矩阵对应位置的元素相乘，并将结果累加，在图像处理中经常用到这种方法。AB卷积结果为：<br>$$5\cdot8+6\cdot7+7\cdot6+8\cdot5 = 164$$<br>在深度学习中，矩阵卷积应用广泛，具体可参考 – <a href="https://mlnotebook.github.io/post/CNN1/" target="_blank" rel="noopener">矩阵卷积</a></li>
+<li>同时反转行和列<br>三种方法只是利用了矩阵基本性质，不赘述。<br>假设B翻转后得矩阵C：<br>$${C} = \left(\begin{matrix} 8 &amp; 7 \ 6 &amp; 5 \end{matrix} \right)$$<br>那么，AB卷积的过程就是是将AC矩阵对应位置的元素相乘，并将结果累加，在图像处理中经常用到这种方法。AB卷积结果为：<br>$$5\cdot8+6\cdot7+7\cdot6+8\cdot5 = 164$$<br>在深度学习中，矩阵卷积应用广泛，具体可参考 – <a href="https://mlnotebook.github.io/post/CNN1/" target="_blank" rel="noopener">矩阵卷积</a></li>
 </ol>
 <h2 id="卷积定理"><a href="#卷积定理" class="headerlink" title="卷积定理"></a>卷积定理</h2><p>卷积定理是傅立叶变换满足的一个重要性质。卷积定理指出，函数卷积的傅立叶变换是函数傅立叶变换的乘积。具体分为时域卷积定理和频域卷积定理，时域卷积定理即时域内的卷积对应频域内的乘积；频域卷积定理即频域内的卷积对应时域内的乘积，两者具有对偶关系。<br>若<br>  $$f_1(t)\leftrightarrow\,F_1(\omega)$$<br>  $$f_2(t)\leftrightarrow\,F_2(\omega)$$<br>$F$ 表示傅里叶变换。<br>则时域卷积定理：<br>$$F(f_1(t)\ast\,f_2(t)) = F_1(\omega)F_2(\omega)$$<br>频域卷积定理：<br>$$F[f_1(t)f_2(t)] = \frac{1}{2\pi}F_1(\omega)F_2(\omega)$$<br>卷积定理揭示了时间域与频率域的对应关系。</p>
-<h2 id="去卷积"><a href="#去卷积" class="headerlink" title="去卷积"></a>去卷积</h2><h2 id="傅里叶"><a href="#傅里叶" class="headerlink" title="傅里叶"></a>傅里叶</h2><h3 id="傅里叶级数"><a href="#傅里叶级数" class="headerlink" title="傅里叶级数"></a>傅里叶级数</h3><p>对于任意周期函数，都可以表示成一系列三角函数的和。<br>那么为什么可以做这种变换呢？这可以几何或者矩阵做类比，在三维空间几何中，我们可以用$(1,0,0),(0,1,0),(0,0,1)$三个空间向量的线性组合来表示这个空间中的所有向量，这三个向量两两正交，称为三维空间向量的基。同理从矩阵的角度看，单元矩阵的每行或者每列也是两两正交，那么每一行都可以看作这个矩阵空间的基，使用这些基向量的线性叠加可以表示任意一个矩阵,如下：<br>$$\left(\begin{matrix} 1 &amp; 0 \\ 0 &amp; 1 \end{matrix} \right) = \left(\begin{matrix} 1 &amp; 0 \\ 0 &amp; 0 \end{matrix} \right) + \left(\begin{matrix} 0 &amp; 0 \\ 0 &amp; 1 \end{matrix} \right)$$<br>而对于函数，数学家也发现同样的现象，使用无数个相互正交的函数可以近似的表示任意一个周期函数，问题是这无数个两两正交的函数怎么找呢，三角函数刚好完美支持，而傅里叶级数选取的这个基函数就是三角函数,事实上，傅里叶级数可以有多种变化方式，三角函数只是其中一种。三角函数的正交性：<br><img src="/2017/12/26/convolution-introduction/trigonometric_orthogonal.png" alt=""></p>
+<h2 id="去卷积"><a href="#去卷积" class="headerlink" title="去卷积"></a>去卷积</h2><h2 id="傅里叶"><a href="#傅里叶" class="headerlink" title="傅里叶"></a>傅里叶</h2><h3 id="傅里叶级数"><a href="#傅里叶级数" class="headerlink" title="傅里叶级数"></a>傅里叶级数</h3><p>对于任意周期函数，都可以表示成一系列三角函数的和。<br>那么为什么可以做这种变换呢？这可以几何或者矩阵做类比，在三维空间几何中，我们可以用$(1,0,0),(0,1,0),(0,0,1)$三个空间向量的线性组合来表示这个空间中的所有向量，这三个向量两两正交，称为三维空间向量的基。同理从矩阵的角度看，单元矩阵的每行或者每列也是两两正交，那么每一行都可以看作这个矩阵空间的基，使用这些基向量的线性叠加可以表示任意一个矩阵,如下：<br>$$\left(\begin{matrix} 1 &amp; 0 \ 0 &amp; 1 \end{matrix} \right) = \left(\begin{matrix} 1 &amp; 0 \ 0 &amp; 0 \end{matrix} \right) + \left(\begin{matrix} 0 &amp; 0 \ 0 &amp; 1 \end{matrix} \right)$$<br>而对于函数，数学家也发现同样的现象，使用无数个相互正交的函数可以近似的表示任意一个周期函数，问题是这无数个两两正交的函数怎么找呢，三角函数刚好完美支持，而傅里叶级数选取的这个基函数就是三角函数,事实上，傅里叶级数可以有多种变化方式，三角函数只是其中一种。三角函数的正交性：<br><img src="/2017/12/26/convolution-introduction/trigonometric_orthogonal.png" alt=""></p>
 <p>下面我们看傅里叶级数的表达，对于任意周期为T的函数，只要满足狄利赫里条件，则函数可以表达为：<br>$$f(x) = \sum_{k=1}^\infty(a_k\,sin(kx) + b_k\,cos(kx)) + \frac{a_0}{2}$$</p>
-<p>其中：<br>$$a_0 = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)dx$$</p>
-<p>$$a_k = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)dx$$</p>
-<p>$$b_k = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)cos(kx)dx$$</p>
+<p>其中：<br>$$a<em>0 = \frac{2}{T}\int</em>{-\frac{T}{2}}^{\frac{T}{2}}f(x)dx$$</p>
+<p>$$a<em>k = \frac{2}{T}\int</em>{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)dx$$</p>
+<p>$$b<em>k = \frac{2}{T}\int</em>{-\frac{T}{2}}^{\frac{T}{2}}f(x)cos(kx)dx$$</p>
 <p>关于$a_0$:将傅里叶级数两边在一个周期上同时积分，$sin$、$cos$的积分均为0，即可得$a_0$</p>
 <p>关于$a_n$:等式两边同时乘以$sin(nx)$再进行积分，根据三角函数正交定理，只有同频率的元素在周期上的积分才不为零：</p>
-<p>$$\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)=\int_{\frac{2}{T}}^2{a_n}\,sin(kx)^2dx$$</p>
+<p>$$\int<em>{-\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx)=\int</em>{\frac{2}{T}}^2{a_n}\,sin(kx)^2dx$$</p>
 <p>$$\int_{-\,\frac{T}{2}}^{\frac{T}{2}}f(x)sin(kx) = a_n\frac{T}{2}$$</p>
 <p>即得$a_n$<br>同理得$b_n$<br>傅里叶展开后，原函数与展开式，以及展开式的频谱、相位关系图，现在有了各频率下的幅值和相位，原函数的频域信息就都体现出来了：</p>
 <p><img src="/2017/12/26/convolution-introduction/Fourier_series.jpg" alt=""></p>
 <p>可以看出，将展开级数沿z轴放置，从图右边看，就是频谱，从上面看就是相位，需要注意的是，由于傅里叶级数中只使用了正弦和余弦函数，因此相位永远是0或者$\pi$，另外，级数展开后得频率非连续，是一个个独立的幅值，对应的频率是原函数频率的整数倍，这样的频谱是离散的。<br>下面的动图也有助于理解：</p>
 <p><img src="/2017/12/26/convolution-introduction/Fourier_series_and_transform.gif" alt=""></p>
-<h4 id="傅里叶级数的复数形式"><a href="#傅里叶级数的复数形式" class="headerlink" title="傅里叶级数的复数形式"></a>傅里叶级数的复数形式</h4><p>复数形式可以由欧拉公式变化而来，只是简单的代入，不再赘述。<br>欧拉公式：<br>$$e^{it} = cos(t) + isin(t)$$<br>傅里叶复数：<br>$$f(x) = \sum_{-\infty}^{\infty}a_ke^{jk\omega\,t}$$<br>其中：<br>$$a_k = \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}x(t)e^{-jk\omega\,t}dt$$</p>
-<h3 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h3><p>傅里叶级数有其局限性，只能用于周期函数，那么对于非周期函数怎么办呢？<br>对于非周期函数，我们可以这样思考，非周期看作周期无穷大，那么对应的$\omega$则无穷小，<br>傅里叶级数：<br>$$f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}F(\omega)e^{i\omega\,t}d\omega$$<br>其中：<br>$$F(\omega) = \int_{-\infty}^{\infty}f(t)e^{-i\omega\,t}dt$$<br>注意,第二个公式才叫做 $f(x)$ 的傅里叶变换。更重要的是，这个式子里的角频率 $\omega$ 就不是某一个频点了，它可以取频谱轴上的任意值，它是连续的！非周期的信号的频谱遍布整个频率轴！<br>对某一点特定角频率 $\omega$ 取值，$F(\omega)$ 就是角频率 $\omega$ 在信号 $f(t)$ 中的”份量”！</p>
+<h4 id="傅里叶级数的复数形式"><a href="#傅里叶级数的复数形式" class="headerlink" title="傅里叶级数的复数形式"></a>傅里叶级数的复数形式</h4><p>复数形式可以由欧拉公式变化而来，只是简单的代入，不再赘述。<br>欧拉公式：<br>$$e^{it} = cos(t) + isin(t)$$<br>傅里叶复数：<br>$$f(x) = \sum_{-\infty}^{\infty}a_ke^{jk\omega\,t}$$<br>其中：<br>$$a<em>k = \frac{1}{T}\int</em>{-\frac{T}{2}}^{\frac{T}{2}}x(t)e^{-jk\omega\,t}dt$$</p>
+<h3 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h3><p>傅里叶级数有其局限性，只能用于周期函数，那么对于非周期函数怎么办呢？<br>对于非周期函数，我们可以这样思考，非周期看作周期无穷大，那么对应的$\omega$则无穷小，<br>傅里叶级数：<br>$$f(t) = \frac{1}{2\pi}\int<em>{-\infty}^{\infty}F(\omega)e^{i\omega\,t}d\omega$$<br>其中：<br>$$F(\omega) = \int</em>{-\infty}^{\infty}f(t)e^{-i\omega\,t}dt$$<br>注意,第二个公式才叫做 $f(x)$ 的傅里叶变换。更重要的是，这个式子里的角频率 $\omega$ 就不是某一个频点了，它可以取频谱轴上的任意值，它是连续的！非周期的信号的频谱遍布整个频率轴！<br>对某一点特定角频率 $\omega$ 取值，$F(\omega)$ 就是角频率 $\omega$ 在信号 $f(t)$ 中的”份量”！</p>
 
       
     </div>
@@ -608,7 +608,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -630,7 +630,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -699,7 +699,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

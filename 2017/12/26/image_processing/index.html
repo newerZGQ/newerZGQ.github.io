@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/12/26/image_processing/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/12/26/image_processing/matrix_convolution.gif">
-<meta property="og:updated_time" content="2018-11-03T04:31:36.136Z">
+<meta property="og:updated_time" content="2019-01-15T07:42:51.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图像处理基础">
 <meta name="twitter:description" content="锐化锐化(image sharpening)是补偿图像的轮廓，增强图像的边缘及灰度跳变的部分，使图像变得清晰。从频域的角度理解是增强图像的高频分量。目前主流软件锐化方式主要有全局锐化和局部锐化，本文主要涉及全局锐化，局部今后另说。 全局锐化原理：理论上来说，全局锐化是滤波算法的逆应用滤波结果 = 过滤掉图像细节的输入图像图像细节 = 输入图像 - 滤波结果锐化结果 = 输入图像 + 锐化系数 X">
@@ -391,7 +391,7 @@
 <li>滤波器的大小应该是奇数，这样它才有一个中心，例如3x3，5x5或者7x7。有中心了，也有了半径的称呼，例如5x5大小的核的半径就是2。</li>
 <li>滤波器矩阵所有的元素之和应该要等于1，这是为了保证滤波前后图像的亮度保持不变。当然了，这不是硬性要求了。</li>
 <li>如果滤波器矩阵所有元素之和大于1，那么滤波后的图像就会比原图像更亮，反之，如果小于1，那么得到的图像就会变暗。如果和为0，图像不会变黑，但也会非常暗。</li>
-<li>对于滤波后的结构，可能会出现负数或者大于255的数值。对这种情况，我们将他们直接截断到0和255之间即可。对于负数，也可以取绝对值。<h5 id="平滑均值滤波器"><a href="#平滑均值滤波器" class="headerlink" title="平滑均值滤波器"></a>平滑均值滤波器</h5>$$\frac{1}{9}\left(\begin{matrix} 1 &amp; 1 &amp; 1\\ 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1\end{matrix} \right)$$<br>这是一个低通滤波器，其频谱的高频部分幅值很低甚至为零，也就是说会过滤掉高频部分，结果是将图像进行平滑处理。<h5 id="锐化均值滤波器"><a href="#锐化均值滤波器" class="headerlink" title="锐化均值滤波器"></a>锐化均值滤波器</h5>$$\left(\begin{matrix} -1 &amp; -1 &amp; -1\\ -1 &amp; 8 &amp; -1 \\ -1 &amp; -1 &amp; -1\end{matrix} \right)$$<br>这是一个高通滤波器，其频谱的低频部分幅值很低甚至为零，也就是说会过滤掉低频部分，结果是将图像进行锐化处理。<h5 id="高斯滤波器"><a href="#高斯滤波器" class="headerlink" title="高斯滤波器"></a>高斯滤波器</h5>高斯滤波器是低通滤波，滤波后图像被平滑的程度取决于标准差。它的输出是领域像素的加权平均，同时离中心越近的像素权重越高。因此，相对于均值滤波（mean filter）它的平滑效果更柔和，而且边缘保留的也更好。<br>高斯滤波简单说就是卷积核的概率分布服从高斯分布。自然界里高斯分布遍布各处，使用高斯分布有一定的理由。<br>3X3高斯卷积核：<br>$$\frac{1}{16}\left(\begin{matrix} 1 &amp; 2 &amp; 1\\ 2 &amp; 4 &amp; 2 \\ 1 &amp; 2 &amp; 1\end{matrix} \right)$$<br>5X5高斯卷积核:<br>$$\frac{1}{273}\left(\begin{matrix} 1 &amp; 4 &amp; 7 &amp; 4 &amp; 1 \\ 4 &amp; 16 &amp; 26 &amp; 16 &amp; 4 \\ 7 &amp; 26 &amp; 41 &amp; 26 &amp; 7 \\ 4 &amp; 16 &amp; 26 &amp; 16 &amp; 4 \\ 1 &amp; 4 &amp; 7 &amp; 4 &amp; 1\\\end{matrix} \right)$$<h4 id="非线性滤波器"><a href="#非线性滤波器" class="headerlink" title="非线性滤波器"></a>非线性滤波器</h4>非线性滤波器的原始数据与滤波结果是一种逻辑关系，即用逻辑运算实现，如最大值滤波器、最小值滤波器、中值滤波器等，是通过比较一定邻域内的灰度值大小来实现的，没有固定的模板，因而也就没有特定的转移函数（因为没有模板作傅里叶变换），另外，膨胀和腐蚀也是通过最大值、最小值滤波器实现的。</li>
+<li>对于滤波后的结构，可能会出现负数或者大于255的数值。对这种情况，我们将他们直接截断到0和255之间即可。对于负数，也可以取绝对值。<h5 id="平滑均值滤波器"><a href="#平滑均值滤波器" class="headerlink" title="平滑均值滤波器"></a>平滑均值滤波器</h5>$$\frac{1}{9}\left(\begin{matrix} 1 &amp; 1 &amp; 1\ 1 &amp; 1 &amp; 1 \ 1 &amp; 1 &amp; 1\end{matrix} \right)$$<br>这是一个低通滤波器，其频谱的高频部分幅值很低甚至为零，也就是说会过滤掉高频部分，结果是将图像进行平滑处理。<h5 id="锐化均值滤波器"><a href="#锐化均值滤波器" class="headerlink" title="锐化均值滤波器"></a>锐化均值滤波器</h5>$$\left(\begin{matrix} -1 &amp; -1 &amp; -1\ -1 &amp; 8 &amp; -1 \ -1 &amp; -1 &amp; -1\end{matrix} \right)$$<br>这是一个高通滤波器，其频谱的低频部分幅值很低甚至为零，也就是说会过滤掉低频部分，结果是将图像进行锐化处理。<h5 id="高斯滤波器"><a href="#高斯滤波器" class="headerlink" title="高斯滤波器"></a>高斯滤波器</h5>高斯滤波器是低通滤波，滤波后图像被平滑的程度取决于标准差。它的输出是领域像素的加权平均，同时离中心越近的像素权重越高。因此，相对于均值滤波（mean filter）它的平滑效果更柔和，而且边缘保留的也更好。<br>高斯滤波简单说就是卷积核的概率分布服从高斯分布。自然界里高斯分布遍布各处，使用高斯分布有一定的理由。<br>3X3高斯卷积核：<br>$$\frac{1}{16}\left(\begin{matrix} 1 &amp; 2 &amp; 1\ 2 &amp; 4 &amp; 2 \ 1 &amp; 2 &amp; 1\end{matrix} \right)$$<br>5X5高斯卷积核:<br>$$\frac{1}{273}\left(\begin{matrix} 1 &amp; 4 &amp; 7 &amp; 4 &amp; 1 \ 4 &amp; 16 &amp; 26 &amp; 16 &amp; 4 \ 7 &amp; 26 &amp; 41 &amp; 26 &amp; 7 \ 4 &amp; 16 &amp; 26 &amp; 16 &amp; 4 \ 1 &amp; 4 &amp; 7 &amp; 4 &amp; 1\\end{matrix} \right)$$<h4 id="非线性滤波器"><a href="#非线性滤波器" class="headerlink" title="非线性滤波器"></a>非线性滤波器</h4>非线性滤波器的原始数据与滤波结果是一种逻辑关系，即用逻辑运算实现，如最大值滤波器、最小值滤波器、中值滤波器等，是通过比较一定邻域内的灰度值大小来实现的，没有固定的模板，因而也就没有特定的转移函数（因为没有模板作傅里叶变换），另外，膨胀和腐蚀也是通过最大值、最小值滤波器实现的。</li>
 </ol>
 <h2 id="对比度"><a href="#对比度" class="headerlink" title="对比度"></a>对比度</h2><h3 id="锐化与对比度的区别"><a href="#锐化与对比度的区别" class="headerlink" title="锐化与对比度的区别"></a>锐化与对比度的区别</h3><p>锐化可以理解为增加局部差异，增加对比度可以理解为拉开整体差异</p>
 <h2 id="亮度"><a href="#亮度" class="headerlink" title="亮度"></a>亮度</h2><h2 id="饱和度"><a href="#饱和度" class="headerlink" title="饱和度"></a>饱和度</h2>
@@ -517,7 +517,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -539,7 +539,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -608,7 +608,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

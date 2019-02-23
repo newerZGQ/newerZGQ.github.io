@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="大巧不工">
 <meta property="og:description" content="遇到的问题公式打开mathjax如果使用了主题，在主题的_config.yml中打开mathjax12345# MathJax Supportmathjax:  enable: true  per_page: true  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-03T04:31:36.124Z">
+<meta property="og:updated_time" content="2019-02-23T10:28:58.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="博客建立">
 <meta name="twitter:description" content="遇到的问题公式打开mathjax如果使用了主题，在主题的_config.yml中打开mathjax12345# MathJax Supportmathjax:  enable: true  per_page: true  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML">
@@ -379,12 +379,23 @@
 <h5 id="在文档Front-matter中启用mathjax"><a href="#在文档Front-matter中启用mathjax" class="headerlink" title="在文档Front-matter中启用mathjax"></a>在文档Front-matter中启用mathjax</h5><p>这是为了渲染快，因为没有公式的文档不需要渲染<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 卷积与傅立叶</span><br><span class="line">date: 2017-12-26 21:46:15</span><br><span class="line">tags:</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
 <h4 id="latex与markdown冲突："><a href="#latex与markdown冲突：" class="headerlink" title="latex与markdown冲突："></a>latex与markdown冲突：</h4><p>参照<a href="https://segmentfault.com/a/1190000007261752" target="_blank" rel="noopener">latex与markdown语法冲突解决</a><br>比如latex中的下标符号_，markdown会先识别为斜体，这样公式就不能渲染了，以及<code>\</code>转义会影响latex换行的识别，对于这种情况，两种方法解决：</p>
 <ol>
-<li>将公式中的_替换为转义_即可，但是这样做，虽然生成的网页正常，但是markdown preview的时候会出错；</li>
+<li>将公式中的<em>替换为转义\</em>即可，但是这样做，虽然生成的网页正常，但是markdown preview的时候会出错；</li>
 <li>修改renderer引擎的转义定义:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 取消`\`转义（注意：这里的修改与上面链接中修改有区别）:</span><br><span class="line">escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,</span><br><span class="line">// 取消`_`转义：</span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h4 id="Atom可以实时预览公式"><a href="#Atom可以实时预览公式" class="headerlink" title="Atom可以实时预览公式"></a>Atom可以实时预览公式</h4><p>安装 latex 预览package<br>ctlr + shift + x</p>
 <h2 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h2><p><a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="noopener">GitHub Markdown 语法</a></p>
+<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><ul>
+<li>文章<ul>
+<li>hexo new android开发</li>
+</ul>
+</li>
+<li>草稿<ul>
+<li>创建草稿：<code>hexo new draft 制作抖音视频</code></li>
+<li>发布草稿：<code>hexo publish 制作抖音视频</code></li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -508,7 +519,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -530,7 +541,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -579,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公式"><span class="nav-number">1.1.</span> <span class="nav-text">公式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开mathjax"><span class="nav-number">1.1.1.</span> <span class="nav-text">打开mathjax</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如果使用了主题，在主题的-config-yml中打开mathjax"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">如果使用了主题，在主题的_config.yml中打开mathjax</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在文档Front-matter中启用mathjax"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">在文档Front-matter中启用mathjax</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#latex与markdown冲突："><span class="nav-number">1.1.2.</span> <span class="nav-text">latex与markdown冲突：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Atom可以实时预览公式"><span class="nav-number">1.1.3.</span> <span class="nav-text">Atom可以实时预览公式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown语法"><span class="nav-number">2.</span> <span class="nav-text">Markdown语法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公式"><span class="nav-number">1.1.</span> <span class="nav-text">公式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开mathjax"><span class="nav-number">1.1.1.</span> <span class="nav-text">打开mathjax</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如果使用了主题，在主题的-config-yml中打开mathjax"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">如果使用了主题，在主题的_config.yml中打开mathjax</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在文档Front-matter中启用mathjax"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">在文档Front-matter中启用mathjax</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#latex与markdown冲突："><span class="nav-number">1.1.2.</span> <span class="nav-text">latex与markdown冲突：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Atom可以实时预览公式"><span class="nav-number">1.1.3.</span> <span class="nav-text">Atom可以实时预览公式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown语法"><span class="nav-number">2.</span> <span class="nav-text">Markdown语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo"><span class="nav-number">3.</span> <span class="nav-text">hexo</span></a></li></ol></div>
             
 
           </div>
@@ -599,7 +610,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
