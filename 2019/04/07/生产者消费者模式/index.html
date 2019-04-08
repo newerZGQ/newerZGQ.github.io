@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="大巧不工">
 <meta property="og:description" content="前言生产者-消费者模式是一个十分经典的多线程并发协作的模式，弄懂生产者-消费者问题能够让我们对并发编程的理解加深。生产者消费者模式，主要探讨的问题是，两个线程（生产者与消费者），一块共享区域，生产者负责生产同时操作共享区域，消费者负责消费同时操作共享区域，在这个过程中，生产者与消费者没有任何耦合，互相不关心对方的行为，那么这种情况下，考虑如下场景：假如共享区域有商品5个，消费者消耗一个商品后去检查">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-07T05:36:50.280Z">
+<meta property="og:updated_time" content="2019-04-07T09:20:43.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="生产者消费者模式">
 <meta name="twitter:description" content="前言生产者-消费者模式是一个十分经典的多线程并发协作的模式，弄懂生产者-消费者问题能够让我们对并发编程的理解加深。生产者消费者模式，主要探讨的问题是，两个线程（生产者与消费者），一块共享区域，生产者负责生产同时操作共享区域，消费者负责消费同时操作共享区域，在这个过程中，生产者与消费者没有任何耦合，互相不关心对方的行为，那么这种情况下，考虑如下场景：假如共享区域有商品5个，消费者消耗一个商品后去检查">
@@ -364,7 +364,7 @@
 <li>wait<br>该方法用来将当前线程置入休眠状态，直到接到这个对象调用了notify或者notifyAll，或者超过一个指定的超时时长。<br>当前线程必须拥有这个对象的monitor，也就是必须获得这个对象的锁才能调用，否则会报java.lang.IllegalMonitorStateException错误。<br>该方法会将当前线程（就是获得锁的那个，假设为线程A）放进这个对象的wait set中，并且线程A会放弃所有获取对该对象锁的主张，线程A停止执行并进入休眠，直到下面四个情况之一出现：    <ul>
 <li>其他线程调用该对象的notify，并且线程A刚好被选中唤醒（是否被选中与操作系统实现有关）</li>
 <li>其他线程调用该对象的notifyAll</li>
-<li>其他线程打断线程A</li>
+<li>其他线程打断线程A，中断线程会抛出InterruptedException异常，因此，sleep和wait都要catch或者抛出这个异常</li>
 <li>指定的超时时长已经过去，如果超时时长为0，那么线程会直接进入休眠<br>线程A被唤醒后会和其他被唤醒的线程竞争获得对象锁，一旦成功获得锁，线程A的锁信息就会全部记录下来，然后线程A就可以从wait中返回，并继续执行下去。<br>wait只能出现在循环中，因为唤醒的时候可能还是不满足执行条件<br>如果在线程wait前或者wait中被打断，那么会抛出一个InterruptedException异常，并且直到对象锁状态被重新存储后才会抛出。<br>在调用 wait()之前，线程必须要获得该对象的对象监视器锁，即只能在同步方法或同步块中调用 wait()方法。调用wait()方法之后，当前线程会释放锁。如果调用wait()方法时，线程并未获取到锁的话，则会抛出IllegalMonitorStateException异常，这是以个RuntimeException。如果再次获取到锁的话，当前线程才能从wait()方法处成功返回。</li>
 </ul>
 </li>
@@ -416,8 +416,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/07/Lock/" rel="prev" title="Lock">
-                Lock <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/07/volatile/" rel="prev" title="volatile">
+                volatile <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -499,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
