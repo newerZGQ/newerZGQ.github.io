@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android四种启动方式Activity有四种启动方式：以下是Android developer介绍的，但是实际情况会有所出入| 使用场景         | Launch Mode    | 是否多实例 | 介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Activity的四种启动方式">
+<meta property="og:url" content="http://yoursite.com/2019/05/06/Android-Activity的四种启动方式/index.html">
+<meta property="og:site_name" content="大巧不工">
+<meta property="og:description" content="Android四种启动方式Activity有四种启动方式：以下是Android developer介绍的，但是实际情况会有所出入| 使用场景         | Launch Mode    | 是否多实例 | 介绍">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-07T02:25:54.683Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Activity的四种启动方式">
+<meta name="twitter:description" content="Android四种启动方式Activity有四种启动方式：以下是Android developer介绍的，但是实际情况会有所出入| 使用场景         | Launch Mode    | 是否多实例 | 介绍">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/06/Android-Activity的四种启动方式/">
+
+
+
+
+
+  <title>Android Activity的四种启动方式 | 大巧不工</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大巧不工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/06/Android-Activity的四种启动方式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Activity的四种启动方式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-06T22:30:06+08:00">
+                2019-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Android四种启动方式"><a href="#Android四种启动方式" class="headerlink" title="Android四种启动方式"></a>Android四种启动方式</h4><p>Activity有四种启动方式：<br>以下是Android developer介绍的，但是实际情况会有所出入<br>| 使用场景         | Launch Mode    | 是否多实例 | 介绍                                                                                                                                                                                                                  |<br>| —————- | ————– | ———- | ——————————————————————————————————————————————————————————————————————— |<br>| 绝大多数使用场景 | standard       | 是         | 默认模式，系统总会在目标任务栈中创建一个新实例，并把intent传给它                                                                                                                                                      |<br>| 绝大多数使用场景 | singleTop      | 根据情况   | 如果一个实例存在且位于目标任务栈的顶端，那么系统会将intent通过onNewIntent传给该activity，而不会创建一个新实例                                                                                                         |<br>| 特殊场景使用     | singleTask     | 否         | 系统创建一个新的任务栈和一个新的activity实例，将activity实例放在栈底。但是，如果已经有一个这个Activity的实例，系统会回调这个实例的onNewIntent方法，而不会创建新实例（注意：此处介绍与实际情况有出入，后面会详细介绍） |<br>| 特殊场景使用     | singleInstance | 否         | 和singleTask几乎一样，不同的是，singleInstance存在的任务栈，不会有其他任何activity，该Activity是其所在任务栈内唯一的一个Activity                                                                                      |</p>
+<a id="more"></a>
+<h5 id="standard和singleTop"><a href="#standard和singleTop" class="headerlink" title="standard和singleTop"></a>standard和singleTop</h5><p>这两个模式看似简单，其实仔细思考还是有一些需要注意的点的。<br>我们从最简单的开始测试，现有如下两个Activity<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.MainActivity&quot;</span><br><span class="line">    android:label=&quot;@string/app_name&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.Main2Activity&quot;</span><br><span class="line">    android:label=&quot;@string/title_activity_main2&quot;</span><br><span class="line">    android:launchMode=&quot;singleTop&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>测试流程MainActivity-&gt;Main2Activity-&gt;Main2Activity，打印当前任务栈，发现只有两个Activity：栈底MainActivity，栈顶Main2Activity，并且，在第二次启动Main2Activity时，没有创建新实例，而是回调了Main2Activity的onNewIntent方法。<br>对于standard和singleTop，如无特别操作，新建的实例都会压入默认任务栈，上面两次启动Activity都是在默认的任务栈中。那么对于这种类型的Activity，我们可以让他们启动在另一个任务中么？答案是肯定的。<br>我们在启动Main2Activity时，Intent可以设置Flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br></pre></td></tr></table></figure></p>
+<p>根据官方文档，当设置了FLAG_ACTIVITY_NEW_TASK之后，会使用一个新的任务来承接要启动的Activity，但是实际情况是这样么？还是MainActivity-&gt;Main2Activity-&gt;Main2Activity的启动顺序，打印任务栈，发现还是只有一个任务栈，Main2Activity表现的和没有加Flag时一模一样。而出现这种情况的原因就是我们没有设置Main2Activity的taskAffinity。    </p>
+<blockquote>
+<p>taskAffinity: 每个Activity都有一个taskAffinity，表示这个Activity在启动时如果需要选择任务栈，那么选择的依据就是taskAffinity，为什么说如果需要选择呢？这是因为standard和singleTop模式下，即便设置了taskAffinity参数，Activity在启动后会直接进入到启动它的Activity所在的栈，而不会考虑根据taskAffinity去选择，除非在启动时给intent添加FLAG_ACTIVITY_NEW_TASK FLAG，这相当于给了Activity选择任务栈的权利，taskAffinity也会生效。而singleTask和singleInstance在整个系统中是单例，所以天生在启动时需要遍历所有任务栈，判断当前是否存在实例，如果有实例，则将已存在实例的上方Activity弹出，回调onNewIntent。</p>
+</blockquote>
+<p>将上面manifest修改如下，给Main2Activity添加taskAffinity<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.MainActivity&quot;</span><br><span class="line">    android:label=&quot;@string/app_name&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.Main2Activity&quot;</span><br><span class="line">    android:label=&quot;@string/title_activity_main2&quot;</span><br><span class="line">    android:launchMode=&quot;singleTop&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.test&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>测试流程MainActivity-&gt;Main2Activity-&gt;Main2Activity，打印所有任务栈，这里给出打印任务栈代码，打印出每个任务栈的Activity数量、affiliatedTaskId、栈底Activity、栈顶Activity。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void printActivities(AppCompatActivity activity)&#123;</span><br><span class="line">    ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">    List&lt;ActivityManager.AppTask&gt; appTasks =  activityManager.getAppTasks();</span><br><span class="line">    for (int i = 0; i &lt; appTasks.size(); i++) &#123;</span><br><span class="line">        Util.print(&quot;numActivities: &quot; + appTasks.get(i).getTaskInfo().numActivities + &quot;\n&quot;);</span><br><span class="line">        Util.print(&quot;affiliatedTaskId: &quot; + appTasks.get(i).getTaskInfo().affiliatedTaskId + &quot;\n&quot;);</span><br><span class="line">        Util.print(&quot;baseActivity: &quot; + appTasks.get(i).getTaskInfo().baseActivity + &quot;\n&quot;);</span><br><span class="line">        Util.print(&quot;topActivity: &quot; + appTasks.get(i).getTaskInfo().topActivity + &quot;\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    Util.print(&quot;================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">04-29 00:39:30.563 8113-8113/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 00:39:30.567 8113-8113/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 287 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 00:39:33.104 8113-8113/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 00:39:33.108 8113-8113/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 288 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">04-29 00:39:33.110 8113-8113/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 287 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 00:39:34.099 8113-8113/study.zgq.com.androidstudy D/nanwei: +++++++++++++&gt;&gt;&gt;&gt;new intent</span><br><span class="line">04-29 00:39:35.653 8113-8113/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 00:39:35.656 8113-8113/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 288 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">04-29 00:39:35.661 8113-8113/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 287 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出，第一次启动Main2Activity后有两个任务栈，Main2Activity于一个新的任务栈中，且处于前台。再次启动Main2Activity，发现两个任务栈状态均未改变，但是回调了Main2Activity的onNewIntent。<br>那么，我们在第二个栈中重新启动MainActivity呢？也就是MainActivity-&gt;Main2Activity-&gt;Main2Activity-&gt;MainActivity的启动顺序，这里是结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">04-29 00:57:33.090 8522-8522/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 00:57:33.093 8522-8522/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 290 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 00:57:35.830 8522-8522/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 00:57:35.832 8522-8522/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 291 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">04-29 00:57:35.835 8522-8522/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 290 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 00:57:38.594 8522-8522/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 00:57:38.597 8522-8522/study.zgq.com.androidstudy D/nanwei: numActivities: 2 affiliatedTaskId: 291 baseActivity: Main2Activity topActivity: MainActivity</span><br><span class="line">04-29 00:57:38.602 8522-8522/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 290 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出来，在第二个任务栈中新创建了一个MainActivity。那么，我们可以将新创建的MainActivity压入第一个任务栈么？答案也是可以的：先修改manifest，给MainActivity指定taskAffinity：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.MainActivity&quot;</span><br><span class="line">    android:label=&quot;@string/app_name&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.test.main&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.Main2Activity&quot;</span><br><span class="line">    android:label=&quot;@string/title_activity_main2&quot;</span><br><span class="line">    android:launchMode=&quot;singleTop&quot;</span><br><span class="line">    android:taskAffinity=&quot;com.test&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme.NoActionBar&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>同时在从Main2Activity启动MainActivity时添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br></pre></td></tr></table></figure></p>
+<p>还是按照MainActivity-&gt;Main2Activity-&gt;Main2Activity-&gt;MainActivity的启动顺序，看结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">04-29 01:08:54.490 8840-8840/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 01:08:54.493 8840-8840/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 292 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 01:08:57.141 8840-8840/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 01:08:57.145 8840-8840/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 293 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">04-29 01:08:57.148 8840-8840/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 292 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">04-29 01:09:00.084 8840-8840/study.zgq.com.androidstudy D/nanwei: total tasks: 2</span><br><span class="line">04-29 01:09:00.089 8840-8840/study.zgq.com.androidstudy D/nanwei: numActivities: 2 affiliatedTaskId: 292 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">04-29 01:09:00.090 8840-8840/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 293 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出来，在初始task内重新创建了一个MainActivity。   </p>
+<p>上面我们使用了一个Flag：FLAG_ACTIVITY_NEW_TASK，其实还有一个常见的Flag是FLAG_ACTIVITY_CLEAR_TOP，顾名思义，在启动Activity时，如果目标栈内已经有了实例，那么会弹出其上的所有Activity，然后回调onNewIntent方法(Activity launchMode为singleTop)或者销毁栈内的实例以及其上面的实例，重新创建新实例（Activity launchMode为standard）。举例如下：有MainActivity和Main2Activity，launchMode都是standard，启动顺序MainActivity-&gt;Main2Activity-&gt;MainActivity，其中MainActivity-&gt;Main2Activity是直接调用启动，Main2Activity-&gt;MainActivity时intent添加flag：FLAG_ACTIVITY_CLEAR_TOP。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">04-29 22:49:51.307 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onCreate</span><br><span class="line">04-29 22:49:51.687 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onResume</span><br><span class="line">04-29 22:49:54.863 19805-19805/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:49:54.866 19805-19805/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 308 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 22:49:56.152 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onPause</span><br><span class="line">04-29 22:49:56.680 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onStop</span><br><span class="line">04-29 22:49:57.132 19805-19805/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:49:57.135 19805-19805/study.zgq.com.androidstudy D/nanwei: numActivities: 2 affiliatedTaskId: 308 baseActivity: MainActivity topActivity: Main2Activity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 22:49:58.135 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onCreate</span><br><span class="line">04-29 22:49:58.167 19805-19805/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onResume</span><br><span class="line">04-29 22:49:59.280 19805-19805/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:49:59.284 19805-19805/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 308 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br></pre></td></tr></table></figure></p>
+<p>从上面可以看出来，standard模式的activity被带有FLAG_ACTIVITY_CLEAR_TOP的intent重新启动时，重新经历一次完整的生命周期，也就是说会弹出自身以及其上的所有activity，并重新创建一个新的实例，这也迎合了standard模式在任何情况下都会重新创建一个新实例。<br>接着上面的例子，如果MainActivity launchMode是singleTop，那么结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">04-29 22:43:57.198 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onCreate</span><br><span class="line">04-29 22:43:57.597 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onResume</span><br><span class="line">04-29 22:44:00.439 19471-19471/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:44:00.444 19471-19471/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 307 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 22:44:01.589 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onPause</span><br><span class="line">04-29 22:44:02.151 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onStop</span><br><span class="line">04-29 22:44:02.692 19471-19471/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:44:02.694 19471-19471/study.zgq.com.androidstudy D/nanwei: numActivities: 2 affiliatedTaskId: 307 baseActivity: MainActivity topActivity: Main2Activity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 22:44:03.967 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onNewIntent</span><br><span class="line">04-29 22:44:03.968 19471-19471/study.zgq.com.androidstudy D/nanwei: ------------&gt;&gt;MainActivity onResume</span><br><span class="line">04-29 22:44:05.160 19471-19471/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 22:44:05.165 19471-19471/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 307 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br></pre></td></tr></table></figure></p>
+<p>可见singleTop模式的activity在被带有FLAG_ACTIVITY_CLEAR_TOP的intent启动时，会弹出其上所有activity，并回调onNewIntent，而不会创建新实例。这也迎合了singleTop可以（注意，只是可以）维持一个实例的特性。需要注意的是，FLAG_ACTIVITY_CLEAR_TOP起作用的是离栈顶最近的Activity，什么意思呢？比如当前栈内从低向上为A-A-A-B，然后B通过FLAG_ACTIVITY_CLEAR_TOP启动A，那么结果是A-A-A。</p>
+<h5 id="singleTask和singleInstance"><a href="#singleTask和singleInstance" class="headerlink" title="singleTask和singleInstance"></a>singleTask和singleInstance</h5><p>我们知道，假设有launchMode为singleTask的Activity1，如果任务栈中已经有了一个Activity1的实例，那么当重新要启动一个新的Activity1时，不会创建新的实例，而会将Activity1上的所有Activity全部弹出栈，然后回调onNewIntent。也就是说，同一个栈中，只能有一个Activity1的实例。那么，如果不同栈中呢？能同时各出现一个实例么？答案是否定的，为什么呢？因为如果要使同一个Activity的多个实例处于不同任务栈中，那么这个Activity势必要有多个不同的taskAffinity，而Android是不支持多个taskAffinity的，这也违反task的设计理念。所以singleTask的Activity在系统中唯一实例。<br>需要提醒的是，官方文档中对于singleTask的解释：”系统创建一个新的任务栈和一个新的activity实例，将activity实例放在栈底“，上面这句话其实是有待商榷的，因为他的实现是有限制的，如果我们仅仅将Activity的launchMode设置为singleTask，那么在启动时，并不会像上面所说，创建新的任务栈然后放入栈底，二是和standard模式一样，直接创建一个新的放入栈顶。如下例：MainActivity是standard模式，Main2Activity是singleTask模式，启动顺序MainActivity-&gt;Main2Activity。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">04-29 23:15:20.774 21777-21777/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 23:15:20.779 21777-21777/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 316 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 23:15:23.071 21777-21777/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 23:15:23.075 21777-21777/study.zgq.com.androidstudy D/nanwei: numActivities: 2 affiliatedTaskId: 316 baseActivity: MainActivity topActivity: Main2Activity</span><br><span class="line">    ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br></pre></td></tr></table></figure></p>
+<p>从结果可以看出，Main2Activity的表现和standard模式一致，那么怎么才能出现文档的情况呢？那就是设置Main2Activity的taskAffinity，可以说，taskAffinity是判断是否创建新任务栈的唯一考量标准。     </p>
+<p>而singleInstance和singleTask的特性基本一致，区别在于，singleInstance是唯一一个存在于任务栈的activity，不可能有其他的activity，比如有MainActivity(standard)和Main2Activity(singleInstance)，MainActivity启动Main2Activity，结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">04-29 23:31:36.685 22677-22677/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 23:31:36.690 22677-22677/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 318 baseActivity: MainActivity topActivity: MainActivity</span><br><span class="line">04-29 23:31:36.691 22677-22677/study.zgq.com.androidstudy D/nanwei: ================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br><span class="line">04-29 23:31:40.102 22677-22677/study.zgq.com.androidstudy D/nanwei: total tasks: 1</span><br><span class="line">04-29 23:31:40.104 22677-22677/study.zgq.com.androidstudy D/nanwei: numActivities: 1 affiliatedTaskId: 319 baseActivity: Main2Activity topActivity: Main2Activity</span><br><span class="line">================================&gt;&gt;&gt;&gt;&gt;&gt;&gt;启动分隔</span><br></pre></td></tr></table></figure></p>
+<p>可以看出，taskAffinityId发生了变化，也即是说，启动Main2Activity后，新建了一个新的任务栈，然后把Main2Activity放入栈底。</p>
+<p>总结</p>
+<ol>
+<li>standard模式任何时候都会重新创建实例，包括被FLAG_ACTIVITY_CLEAR_TOP启动时</li>
+<li>对于能维护一个单例的模式，在使用FLAG_ACTIVITY_CLEAR_TOP时，都会回调onNewIntent，singleTop具有（注意，只是具有，并不是肯定是只有一个实例）维持同一个实例的特性，singleTask和singleInstance都是单例</li>
+<li>taskAffinity和singleInstance是考量是否创建新任务栈的唯二参考</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/05/java虚拟机结构/" rel="next" title="java虚拟机结构">
+                <i class="fa fa-chevron-left"></i> java虚拟机结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/06/Lock原理/" rel="prev" title="Lock原理">
+                Lock原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="vcomments"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/my_avatar.jpeg" alt="99个小号">
+            
+              <p class="site-author-name" itemprop="name">99个小号</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/newerZGQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/1861874151/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android四种启动方式"><span class="nav-number">1.</span> <span class="nav-text">Android四种启动方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#standard和singleTop"><span class="nav-number">1.1.</span> <span class="nav-text">standard和singleTop</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#singleTask和singleInstance"><span class="nav-number">1.2.</span> <span class="nav-text">singleTask和singleInstance</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017-12 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">99个小号</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'mwpsbeU1dMO3kgVsIIJHuXwd-gzGzoHsz',
+        app_key: 'dKVE7X67OlqpWoaJAieV4S7B',
+        placeholder: '请输入...'
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -281,6 +281,845 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/07/生产者消费者模式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/07/生产者消费者模式/" itemprop="url">生产者消费者模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T10:53:21+08:00">
+                2019-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>生产者-消费者模式是一个十分经典的多线程并发协作的模式，弄懂生产者-消费者问题能够让我们对并发编程的理解加深。生产者消费者模式，主要探讨的问题是，两个线程（生产者与消费者），一块共享区域，生产者负责生产同时操作共享区域，消费者负责消费同时操作共享区域，在这个过程中，生产者与消费者没有任何耦合，互相不关心对方的行为，那么这种情况下，考虑如下场景：<br>假如共享区域有商品5个，消费者消耗一个商品后去检查数量时，消费者期待的是还剩下4个，但是由于没有做线程并发协作，在消耗完商品后的时间点，生产者刚好生产好一个商品并要将商品数量+1，在+1之后，消费者才去检查数量，这时候的数量还是5与他的期望不符，这就是问题所在，我们讨论的也都是要解决这个问题。<br>当然，除了上述假设情况之外，我们还得考虑，共享区域的数据变化如何阻塞及唤醒线程    </p>
+<ol>
+<li>如果共享数据区已满的话，阻塞生产者继续生产数据放置入内    </li>
+<li>如果共享数据区为空的话，阻塞消费者继续消费数据<br>其实说到底，就是要实现线程同步，java中实现线程同步的方法主要有</li>
+<li><code>Sychronized</code>，对应的要使用Object的wait和notify机制</li>
+<li><code>Lock</code>，对应的要使用Lock的Condition的await/signal机制<br>另外，使用BlockingQueue也能实现生产者消费者模式</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/07/生产者消费者模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/07/Sychronized/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/07/Sychronized/" itemprop="url">Java线程安全(1)-Sychronized</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T10:40:10+08:00">
+                2019-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="java锁"><a href="#java锁" class="headerlink" title="java锁"></a>java锁</h4><p>java的锁机制并不复杂，谈到锁一般会提到关键字Sychronized和类Lock以及cas策略，提到锁的分类会提到可重入锁、可中断锁、公平锁/非公平锁、乐观锁/悲观锁等等，其实了解了原理之后，一切都会豁然开朗。我们一步一步来。</p>
+<h4 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h4><p>在了解锁机制之前，我们得先清除为什么会有锁，原因是保证线程安全。在编程中，当多个线程都要对某一变量进行操作时，我们必须保证这些线程在自己操作后所得的结果是正确的，这就是线程安全。而在java中，根据线程安全强度由强至弱排序，将操作共享数据氛围以下五类：<br>不可变：数据不可变，线程安全也就无从谈起<br>绝对线程安全：几乎无法实现<br>相对线程安全：我们通常说的线程安全<br>线程兼容：值对象本身不是线程安全的，但是我们可以通过调用手段达到安全。<br>线程对立：无论何种情况，无论调用端使用何种方式，都无法使用并发代码，因为java天生支持多线程，所以这个思想无用<br>所以我们在java中说的并发同步指的就是相对线程安全和线程兼容这两个概念。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/07/Sychronized/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/制作抖音视频/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/23/制作抖音视频/" itemprop="url">制作抖音视频</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-23T18:23:28+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h4><p>短视频在近两年大火，尤其抖音快手等，一个庞大的新媒体流量入口已然成型，刚好工作中接触短视频较多，就想自己运营个抖音号，本来以为市场上已有的一些手机app应该可以满足需求，没想到不是模板固定就是体验太差，又或者输出视频清晰度不够，就干脆拿一些用过的视频工具来做了</p>
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><ul>
+<li>iMovie：主要用来截取片段，当然FFmpeg也完全可以胜任，但是视觉化的iMovie或者其他商业软件会更方便</li>
+<li>ffmpeg：主要用来裁剪视频添加水印<h4 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a>FFmpeg</h4></li>
+<li>官网 <a href="https://ffmpeg.org/ffmpeg.html" target="_blank" rel="noopener">https://ffmpeg.org/ffmpeg.html</a></li>
+<li>命令基本公式<br><code>ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...</code></li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/23/制作抖音视频/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/29/Weex系列-1-环境与工具/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/29/Weex系列-1-环境与工具/" itemprop="url">Weex系列(1)-环境与工具</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-29T23:03:07+08:00">
+                2018-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="什么是Weex"><a href="#什么是Weex" class="headerlink" title="什么是Weex"></a>什么是Weex</h4><p>Weex官网的一句话介绍：Weex 是一个使用 Web 开发体验来开发高性能原生应用的框架。<br>Weex是由阿里巴巴开发的，基于先进Web技术，使用同一套代码来构建 Android、iOS 和 Web 应用。具体来讲，在集成了 WeexSDK 之后，你可以使用 JavaScript 和现代流行的前端框架来开发移动应用。</p>
+<ul>
+<li>支持的前端框架<ul>
+<li>Vue.js</li>
+<li>Rax</li>
+</ul>
+</li>
+</ul>
+<h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/29/Weex系列-1-环境与工具/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/03/AnyTest-Introduction/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/03/AnyTest-Introduction/" itemprop="url">AnyTest-Introductin</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-03T20:51:06+08:00">
+                2018-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目/" itemprop="url" rel="index">
+                    <span itemprop="name">项目</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="AnyTest"><a href="#AnyTest" class="headerlink" title="AnyTest"></a>AnyTest</h1><h2 id="这是什么"><a href="#这是什么" class="headerlink" title="这是什么"></a>这是什么</h2><p>这是一个非常有意思的希望能够提高学生或者文字记忆者效率的一款应用。这款app基于MVP模式，使用Realm进行数据存储，使用RxJava完成异步调用，使用lombok减少代码量，使用butterknife进行view绑定，使用dagger2完成依赖注入，可以说这个项目是使用了相对来说比较新潮的技术来开发的，这也是我做这个项目的初衷，就是接触更多的技术。如果你也对这些项目有兴趣，不防在这里集中的了解一下。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/03/AnyTest-Introduction/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/java-collection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/java-collection/" itemprop="url">java-collection</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T21:04:03+08:00">
+                2018-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><p><img src="/2018/02/27/java-collection/collection.png" alt=""></p>
+<h3 id="重要的接口"><a href="#重要的接口" class="headerlink" title="重要的接口"></a>重要的接口</h3><ol>
+<li><p>List（有序、可重复）<br>List里存放的对象是有序的，同时也是可以重复的，List关注的是索引，拥有一系列和索引相关的方法，查询速度快。因为往list集合里插入或删除数据时，会伴随着后面数据的移动，所有插入删除数据速度慢。</p>
+</li>
+<li><p>Set（无序、不能重复）<br>Set里存放的对象是无序，不能重复的，集合中的对象不按特定的方式排序，只是简单地把对象加入集合中。</p>
+</li>
+<li><p>Map（键值对、键唯一、值不唯一）<br>Map集合中存储的是键值对，键不能重复，值可以重复。根据键得到值，对map集合遍历时先得到键的set集合，对set集合进行遍历，得到相应的值。</p>
+</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/27/java-collection/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/floor-ceiling/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -300,7 +1139,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/09/floor-ceiling/" itemprop="url">floor-ceiling</a></h1>
+                <a class="post-title-link" href="/2018/02/09/floor-ceiling/" itemprop="url">floor-ceiling-round</a></h1>
         
 
         <div class="post-meta">
@@ -374,7 +1213,8 @@
       
         
           
-            <h2 id="趣味"><a href="#趣味" class="headerlink" title="趣味"></a>趣味</h2><h4 id="floor和ceiling"><a href="#floor和ceiling" class="headerlink" title="floor和ceiling"></a>floor和ceiling</h4><p>为什么向下取整用floor（小于等于给定值n的最大整数），向上取整用ceiling（大于等于给定值n的最小值）。<br>想想在一个房间里，有地板floor（代表整数m），天花板ceiling(代表m+1)，n位于地板和天花板之间，floor不就是小于等于n的最大整数么，ceiling也类似，真是形象~</p>
+            <h2 id="趣味"><a href="#趣味" class="headerlink" title="趣味"></a>趣味</h2><h4 id="floor和ceiling"><a href="#floor和ceiling" class="headerlink" title="floor和ceiling"></a>floor和ceiling</h4><p>为什么向下取整用floor（小于等于给定值n的最大整数），向上取整用ceiling（大于等于给定值n的最小值）。<br>想想在一个房间里，有地板floor（代表整数m），天花板ceiling(代表m+1)，n位于地板和天花板之间，floor不就是小于等于n的最大整数么，ceiling也类似，真是形象~<br>round是指距离最近的整数，比如11.6距离12最近，11.4距离11最近，-11.6距离-12最近，-11.4距离-11最近，需要注意的是.5这个点，.5这个点永远属于数轴右边，比如11.5距离12最近，-11.5距离-11最近</p>
+<h4 id="round"><a href="#round" class="headerlink" title="round"></a>round</h4><p>round是指距离最近的整数，这就涉及到.5的情况怎么处理，不管正数还是负数，round后的.5都是返回数轴右边的整数</p>
 
           
         
@@ -850,891 +1690,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/sort-algorithm/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/23/sort-algorithm/" itemprop="url">sort-algorithm</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T10:45:24+08:00">
-                2018-01-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>一般用于小型数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void selection(Comparable[] a)&#123;</span><br><span class="line">    for (int i = 0; i &lt; a.length; i++)&#123;</span><br><span class="line">        int min = i;</span><br><span class="line">        for (int j = i + 1 ; j &lt; a.length; j++)&#123;</span><br><span class="line">            if (a[min].compareTo(a[j]) &gt; 0)&#123;</span><br><span class="line">                min = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        exch(a,min,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/23/sort-algorithm/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/21/algorithm-analysis/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/21/algorithm-analysis/" itemprop="url">算法分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T15:05:03+08:00">
-                2018-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>一个程序开始运行到结束需要多少时间，需要使用多少内存，都需要进行算法分析，以求算法达到相对优的性能。算法的时间复杂度和空间复杂度合称为算法的复杂度。</p>
-<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><h4 id="时间频度"><a href="#时间频度" class="headerlink" title="时间频度"></a>时间频度</h4><p>一个算法执行所耗费的时间，从理论上是不能算出来的，必须上机运行测试才能知道。但我们不可能也没有必要对每个算法都上机测试，只需知道哪个算法花费的时间多，哪个算法花费的时间少就可以了。并且一个算法花费的时间与算法中<strong>语句的执行次数</strong>成正比例，哪个算法中语句执行次数多，它花费时间就多。一个算法中的语句执行次数称为<strong>语句频度或时间频度</strong>。记为T(n)。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/21/algorithm-analysis/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/atom-tips/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/10/atom-tips/" itemprop="url">atom_tips</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T15:09:23+08:00">
-                2018-01-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-快捷键"><a href="#1-快捷键" class="headerlink" title="1 快捷键"></a>1 快捷键</h4><ol>
-<li>ctrl+tab切换标签页</li>
-<li>ctrl+w 关闭当前标签页，ctrl+k  ctrl+w关闭所有标签页</li>
-<li>ctrl+shift+\  切换到目录树，并定位到当前文件,在目录树中切换文件，按右箭头即可打开并回到工作区</li>
-<li>ctrl+k ctrl+left arrow 或者 ctrl+k ctrl+right arrow可以在目录树和工作区切换</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/algorithm/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/08/algorithm/" itemprop="url">算法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T15:34:17+08:00">
-                2018-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="1-开平方"><a href="#1-开平方" class="headerlink" title="1 开平方"></a>1 开平方</h4><p>求常数a的开平方，其实就是对于函数$f(x) = x^2 -a$求解$f(x) = 0$的$x$。这个函数在$x&gt;0$时单调递增，可以使用牛顿法逐步逼近。<br><img src="/2018/01/08/algorithm/sqrt.jpg" alt=""><br>如图所示，先取一个值$x_0$,假设$x_0$是解，判断$x_0$不是解之后，使用$x_0$点的倒数求$x_1$，以此方式逐渐逼近正解。示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static double sqrt(double s)&#123;</span><br><span class="line">  //当所求解与小于该值时，认为已求得正解</span><br><span class="line">    double err = 1E-15;</span><br><span class="line">    double t = s;</span><br><span class="line">    while(Math.abs(t - s/t) &gt; err)&#123;</span><br><span class="line">        t = (t + s/t)/2;</span><br><span class="line">    &#125;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/08/algorithm/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/java-tips/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/08/java-tips/" itemprop="url">java小贴士</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T14:43:29+08:00">
-                2018-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="1-值传递与引用传递"><a href="#1-值传递与引用传递" class="headerlink" title="1 值传递与引用传递"></a>1 值传递与引用传递</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">int num = 10;</span><br><span class="line">String str = &quot;hello&quot;</span><br><span class="line">//第一个例子：基本类型</span><br><span class="line">void foo(int value) &#123;</span><br><span class="line">    value = 100;</span><br><span class="line">&#125;</span><br><span class="line">foo(num); // num 没有被改变</span><br><span class="line"></span><br><span class="line">//第二个例子：引用类型</span><br><span class="line">void foo(String text) &#123;</span><br><span class="line">    text = &quot;windows&quot;;</span><br><span class="line">&#125;</span><br><span class="line">foo(str);</span><br><span class="line">// str 也没有被改变，这个过程其实是先分配一块内存并创建一个新的引用text，再将text指向了str的值hello，text = &quot;windows&quot;这个操作又将text指向了值为windows的对象，因此str没有改变。第三个第四个例子也可以这样理解。</span><br><span class="line"></span><br><span class="line">//第三个例子：提供了改变自身方法的引用类型</span><br><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder.append(&quot;4&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 被改变了，变成了&quot;iphone4&quot;。</span><br><span class="line"></span><br><span class="line">//第四个例子：提供了改变自身方法的引用类型，但是不使用，而是使用赋值运算符。</span><br><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder = new StringBuilder(&quot;ipad&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 没有被改变，还是 &quot;iphone&quot;。</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/08/java-tips/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/boolean-size-in-java/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="99个小号">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/my_avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大巧不工">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/08/boolean-size-in-java/" itemprop="url">java中boolean类型的大小</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T11:20:08+08:00">
-                2018-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在Java中，int，float，double等基本类型所占字节大小都有明确说明，唯独boolean类型没有，那么boolean类型的大小究竟是多少呢？</p>
-<h2 id="Java-SE-Specification-java-8"><a href="#Java-SE-Specification-java-8" class="headerlink" title="Java SE Specification(java 8)"></a>Java SE Specification(java 8)</h2><p>先看java官方规范中怎么说，<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.2" target="_blank" rel="noopener">规范网址</a>，下面是摘抄：   </p>
-<h3 id="The-boolean-Type"><a href="#The-boolean-Type" class="headerlink" title="The boolean Type"></a>The boolean Type</h3><p>Although the Java Virtual Machine defines a boolean type, it only provides very limited support for it. There are no Java Virtual Machine instructions solely dedicated to operations on boolean values. Instead, expressions in the Java programming language that operate on boolean values are compiled to use values of the Java Virtual Machine int data type.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/08/boolean-size-in-java/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1782,7 +1742,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
