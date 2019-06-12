@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/02/27/java-collection/collection.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/27/java-collection/collection-1.jpeg">
-<meta property="og:updated_time" content="2019-01-15T07:42:51.722Z">
+<meta property="og:updated_time" content="2019-05-19T03:46:07.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java-collection">
 <meta name="twitter:description" content="Java集合 重要的接口 List（有序、可重复）List里存放的对象是有序的，同时也是可以重复的，List关注的是索引，拥有一系列和索引相关的方法，查询速度快。因为往list集合里插入或删除数据时，会伴随着后面数据的移动，所有插入删除数据速度慢。  Set（无序、不能重复）Set里存放的对象是无序，不能重复的，集合中的对象不按特定的方式排序，只是简单地把对象加入集合中。  Map（键值对、键唯一">
@@ -405,7 +405,12 @@
 <p>LinkedHashMap：保存了记录的插入顺序，在用Iteraor遍历LinkedHashMap时，先得到的记录肯定是先插入的，在遍历的时候会比HashMap慢，有HashMap的全部特性。这是因为LinkedHashMap中的Node有before和after两个引用，分别指向前一个和后一个节点</p>
 <p>ConcurrentHashMap：线程安全，并且锁分离。ConcurrentHashMap内部使用段(Segment)来表示这些不同的部分，每个段其实就是一个小的hash table，它们有自己的锁。只要多个修改操作发生在不同的段上，它们就可以并发进行。java1.7和1.8的实现有很大区别，见<a href="https://www.cnblogs.com/study-everyday/p/6430462.html" target="_blank" rel="noopener">https://www.cnblogs.com/study-everyday/p/6430462.html</a></p>
 </li>
+<li>hashmap在java1.7和1.8的区别</li>
 </ol>
+<ul>
+<li>JDK1.7中<br>使用一个Entry数组来存储数据，用key的hashcode取模来决定key会被放到数组里的位置，如果hashcode相同，或者hashcode取模后的结果相同（hash collision），那么这些key会被定位到Entry数组的同一个格子里，这些key会形成一个链表。<br>在hashcode特别差的情况下，比方说所有key的hashcode都相同，这个链表可能会很长，那么put/get操作都可能需要遍历这个链表，也就是说时间复杂度在最差情况下会退化到O(n)。    </li>
+<li>JDK1.8中<br>使用一个Node数组来存储数据，但这个Node可能是链表结构，也可能是红黑树结构，如果插入的key的hashcode相同，那么这些key也会被定位到Node数组的同一个格子里。如果同一个格子里的key不超过8个，使用链表结构存储。如果超过了8个，那么会调用treeifyBin函数，将链表转换为红黑树。那么即使hashcode完全相同，由于红黑树的特点，查找某个特定元素，也只需要O(log n)的开销。也就是说put/get的操作的时间复杂度最差只有O(log n)。<br>听起来挺不错，但是真正想要利用JDK1.8的好处，有一个限制：key的对象，必须正确的实现了Compare接口，如果没有实现Compare接口，或者实现得不正确（比方说所有Compare方法都返回0）。那JDK1.8的HashMap其实还是慢于JDK1.7的。    </li>
+</ul>
 
       
     </div>
@@ -529,7 +534,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

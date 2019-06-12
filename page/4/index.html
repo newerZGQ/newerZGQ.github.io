@@ -281,6 +281,753 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/daydream-media-app/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/daydream-media-app/" itemprop="url">daydream_media_app</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T18:46:09+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>图片视频格式的检测</li>
+</ol>
+<p>将Texture按宽高比降采样，假设图片比例是1:1，那么用于检测格式的texture大小是16x16.<br>检测的方式是按照三色值差异，</p>
+<p>以判断左右格式为例，左右两部分相对应的像素分别进行比较</p>
+<p>•遍历后得到八组diff值，diff值累加后求平均作为左右格式判断依据，如果小于经验值，这可认为是左右格式<br>  x = pixel.x /= range.x</p>
+<p>  y = pixel.y /= range.y</p>
+<p>  z = pixel.z /= range.z</p>
+<p>  diff = (x1-x2,y1-y2,z1-z2)</p>
+<p>range是最亮像素与最暗像素的差值</p>
+<p>然后所得diff值的平方相加即为总差异值，总差异值除以判断的像素数量为单个像素差异值R，取R的元素的平均值用于比较<br>同理得上下格式的判断结果</p>
+<p>同理可得上下格式的差异值<br>SIMILARITY_THRESHOLD 经验值，0.025，差异值低于改值即为stereo图片</p>
+<ol>
+<li>手柄拖拽屏幕的实现<br>2.1 三个事件：OnBeginDrag OnDrag OnEndDrag</li>
+</ol>
+<p>2.2 四元数：<br>求模<br>N(q) = |q| = x2 + y2 + z2 + w2</p>
+<p>求共轭<br>q<em>=(-x, -y, -z, w)<br>根据定义易得：(hk)</em> = k<em>h</em>;(在屏幕旋转时有用，后面讲到)</p>
+<p>求逆<br>对于向量逆的定义, q-1 =q<em>/|q|2<br>对于单位四元素，分母为1，q-1 = q</em> =(-x, -y, -z, w)</p>
+<p>无交换律，有结合律</p>
+<p>unity里的四元数都是单元四元数，莫均为一，所以共轭与逆一致</p>
+<p>2.3 四元数逆在旋转中的意义<br>问题：将空间点P(1,0,1)绕轴(0,1,0)旋转90度，将会得到点(1,0,-1)</p>
+<p>张国强 &gt; MediaApp技术点 &gt; 1获.PNG</p>
+<p>•使用四元数计算过程如下：<br>将点P四维化为 (1,0,1,0)</p>
+<p>四元数 q = ( (0,1,0)sin45 , cos45)</p>
+<p>计算 qpq-1可得结果P`</p>
+<p>•q-1 = (-(0,1,0)sin45,cos45) = ((0,1,0)sin-45,cos-45)<br>即四元数的逆是按同一旋转轴反方向旋转同一角度</p>
+<p>2.4 拖拽屏幕<br>效果：屏幕始终与双眼平行，看向屏幕时视线与屏幕垂直，拖拽过程中光标在屏幕上的位置不变</p>
+<p>2.4.1 实现拖拽<br>//根据光标的方向得到绕x轴和y轴的旋转角，余弦定理，根据旋转角得到四元数，仅计算水平角度和垂直角度（具体实现未给出，可自行计算）<br>Quaternion yawPitchRotation = CalculateControllerYawPitchRotation(eventData);<br>//根据新的光标四元数和上一次的光标四元数，得到新的屏幕的旋转四元数，Quaternion.Inverse(lastYawPitchRotation)会使屏幕先回到上一次旋转之前的状态，再乘以新的光标四元数，就是屏幕新的位置，这样就使光标在屏幕上的点的位置不变，yawPitchRotationDelta 可理解为旋转偏差量<br>Quaternion yawPitchRotationDelta = yawPitchRotation <em> Quaternion.Inverse(lastYawPitchRotation);<br>transform.parent.localRotation = yawPitchRotationDelta </em> transform.parent.localRotation;</p>
+<p>yawPitchRotation：当前帧手柄相对于相机的旋转</p>
+<p>lastYawPitchRotation：上一帧手柄相对于相机的旋转</p>
+<p>yawPitchRotationDelta：两帧之间旋转差值</p>
+<p>Quaternion.Inverse：取逆</p>
+<p>2.4.2 矫正扭转</p>
+<p>光标的旋转是一个点的四元数，把点的旋转应用在面上时，由于面与旋转轴的夹角，各部分在旋转相同角度下位移不同，会出现扭转，所以如果要保证屏幕始终平行两眼，在拖拽完成后要进行矫正</p>
+<p>Vector3 eulerAngles = transform.parent.localRotation.eulerAngles;<br>eulerAngles.z = 0.0f;<br>lastFinalRotation = Quaternion.Euler(eulerAngles);<br>lastYawPitchRotation = yawPitchRotation;<br>if (enableRotation)<br>{<br>transform.parent.localRotation = lastFinalRotation;<br>}</p>
+<p>3.屏幕反光的实现<br>•两个元素，灯光颜色和强度<br>•颜色：计算平均颜色，播放时，每隔多帧计算一次 blit 4x4，得4x4的texture，计算三色的平均值<br>•强度：设定两个高度临界值，当屏幕位置低于最低值时，灯光完全消失，在临界值之间时，灯光强度与屏幕高度和light高度有关，当屏幕位置大于最高值时，灯光亮度只与light高度有关<br>float intensity =Mathf.Clamp01((y - heightMin) / (heightMax - heightMin));</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/renderer-texture-with-shader/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/03/renderer-texture-with-shader/" itemprop="url">unity中使用shader增强视频</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T07:40:48+08:00">
+                2018-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="使用shader对视频texture做特效处理"><a href="#使用shader对视频texture做特效处理" class="headerlink" title="使用shader对视频texture做特效处理"></a>使用shader对视频texture做特效处理</h2><p>该功能主要在片元着色器中实现，考虑到是移动设备，因此要兼顾考虑效果和性能。<br>在shader中的实现，这里只展示像素增强算法，关于shader的结构请看其他</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h4 id="MainTex"><a href="#MainTex" class="headerlink" title="_MainTex"></a>_MainTex</h4><p>当前渲染的texture</p>
+<h4 id="MainTex-TexelSize"><a href="#MainTex-TexelSize" class="headerlink" title="_MainTex_TexelSize"></a>_MainTex_TexelSize</h4><p>_MainTex_TexelSize这个变量的从字面意思是主贴图 _MainTex 的像素尺寸大小，是一个四元数，是 unity 内置的变量，它的值为 Vector4(1 / width, 1 / height, width, height)</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/03/renderer-texture-with-shader/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/adb-tips/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/02/adb-tips/" itemprop="url">adb_tips</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T15:16:31+08:00">
+                2018-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="修改系统文件"><a href="#修改系统文件" class="headerlink" title="修改系统文件"></a>修改系统文件</h2><p>以修改hosts为例<br>首先手机需要root</p>
+<ol>
+<li>adb root</li>
+<li>adb remount</li>
+<li>adb push 将修改过的hosts文件push进去</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/31/DFT-and-DTFT/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/31/DFT-and-DTFT/" itemprop="url">DFT 和 DTFT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-31T04:33:33+08:00">
+                2017-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="几种傅立叶变换"><a href="#几种傅立叶变换" class="headerlink" title="几种傅立叶变换"></a>几种傅立叶变换</h2><ol>
+<li>连续时间周期信号:处理时间连续并且具有周期性的信号，其频域上离散，非周期。</li>
+<li>连续时间非周期信号:处理时间连续但是不具有周期性的信号，其频域上连续，非周期。</li>
+<li>离散时间非周期信号:处理时间离散，不具有周期性的信号，其频域上连续，有周期性。</li>
+<li>离散时间周期信号:处理时间离散，具有周期性的信号，对应离散时间傅里叶变换其频域上离散，有周期性。</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/31/DFT-and-DTFT/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/27/build-blog-on-github/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="99个小号">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大巧不工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/27/build-blog-on-github/" itemprop="url">博客建立</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T00:17:42+08:00">
+                2017-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h3><h4 id="打开mathjax"><a href="#打开mathjax" class="headerlink" title="打开mathjax"></a>打开mathjax</h4><h5 id="如果使用了主题，在主题的-config-yml中打开mathjax"><a href="#如果使用了主题，在主题的-config-yml中打开mathjax" class="headerlink" title="如果使用了主题，在主题的_config.yml中打开mathjax"></a>如果使用了主题，在主题的_config.yml中打开mathjax</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># MathJax Support</span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: true</span><br><span class="line">  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/27/build-blog-on-github/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/convolution-introduction/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1049,7 +1796,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
